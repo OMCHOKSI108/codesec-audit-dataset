@@ -1,0 +1,44 @@
+services:
+  - type: web
+    name: codesec-api
+    env: docker
+    dockerfilePath: deploy/render/api.Dockerfile
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: CODESEC_ENABLE_RAG
+        value: "true"
+      - key: CODESEC_RAG_MODE
+        value: remote
+      - key: CODESEC_RAG_SERVICE_URL
+        value: https://OMCHOKSI108-codereview-agent.hf.space
+      - key: CODESEC_DEFAULT_TOP_K
+        value: "3"
+      - key: DATABASE_BACKEND
+        value: sqlite
+      - key: CODESEC_DB_PATH
+        value: /tmp/reviews.db
+      - key: OWNER_CONTACT_EMAIL
+        value: omchoksi108@gmail.com
+      - key: CODESEC_RAG_API_KEY
+        sync: false
+
+  - type: web
+    name: codesec-dashboard
+    env: docker
+    dockerfilePath: deploy/render/dashboard.Dockerfile
+    plan: free
+    envVars:
+      - key: CODESEC_API_URL
+        value: https://codesec-api.onrender.com
+
+  - type: web
+    name: codesec-review-ui
+    env: docker
+    dockerfilePath: deploy/render/review-ui.Dockerfile
+    plan: free
+    envVars:
+      - key: CODESEC_API_URL
+        value: https://codesec-api.onrender.com

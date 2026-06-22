@@ -122,17 +122,31 @@ The demo runs the rules-only engine (no RAG, no auth, single-user).
 
 ---
 
-## Deployment Architecture
+## Deployment
 
-| Component       | Host               | Purpose                         |
-|-----------------|--------------------|---------------------------------|
-| Demo (rules)    | Hugging Face Space | Public lightweight playground   |
-| API + Dashboard | Render / Railway   | Production backend              |
-| Database        | MongoDB Atlas      | Users, reviews, usage           |
-| Email           | Resend             | Notifications                   |
-| GitHub App      | GitHub Marketplace | Final PR integration            |
+| Component | Host | Status |
+|---|---|---|
+| RAG Service | Hugging Face Space | **Live** |
+| API + Dashboard | Render | **Ready to deploy** |
+| Database | MongoDB Atlas | Designed, not deployed |
+| Email | Resend | Designed, not deployed |
+| GitHub App | GitHub Marketplace | Planned |
 
-See [docs/deployment_strategy.md](docs/deployment_strategy.md) for details.
+### Render Deployment (3 services)
+
+```bash
+# Verify deployed services
+export RENDER_API_URL=https://codesec-api.onrender.com
+export RENDER_DASHBOARD_URL=https://codesec-dashboard.onrender.com
+export RENDER_REVIEW_UI_URL=https://codesec-review-ui.onrender.com
+python scripts/check_render_deployment.py
+```
+
+Render blueprint: `render.yaml`
+
+Full instructions: [docs/render_deployment.md](docs/render_deployment.md)
+
+See also [docs/deployment_strategy.md](docs/deployment_strategy.md) for the full multi-environment plan.
 
 ---
 
