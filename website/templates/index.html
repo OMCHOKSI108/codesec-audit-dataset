@@ -1,111 +1,238 @@
 {% extends "base.html" %}
 {% block title %}{{ app_name }} — AI Pull Request Reviewer{% endblock %}
+
 {% block content %}
-<section class="hero">
-    <div class="hero-badge">
-        <span class="hero-badge-dot"></span>
-        AI PR Reviewer
-    </div>
-    <h1 class="hero-title">The AI security review layer<br>for your <span>GitHub pull requests</span></h1>
-    <p class="hero-subtitle">CodeSecAudit AI reviews changed code before merge, detects risky patterns, maps findings to CWE, posts inline PR comments, and tracks review analytics — with RAG guidance from OWASP secure coding resources.</p>
 
-    <div class="hero-code-pill">
-        <span>$</span> pip install codesec-audit-ai
+<section class="hero hero-gradient">
+    <div class="hero-pill-row">
+        <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            GitHub App · AI PR Reviewer
+        </div>
+        <div class="hero-badge hero-badge-secondary">
+            OWASP RAG Guidance
+        </div>
     </div>
 
-    <div class="hero-cta">
-        <a href="{{ install_github_url }}" class="btn btn-primary" target="_blank">Install GitHub App</a>
-        <a href="https://codesec-review-ui.onrender.com" class="btn btn-secondary" target="_blank">View Live Demo</a>
+```
+<h1 class="hero-title">
+    The AI code review layer<br>
+    that protects your <span>pull requests.</span>
+</h1>
+
+<p class="hero-subtitle">
+    CodeSecAudit AI reviews changed code before merge, detects risky patterns,
+    maps findings to CWE, posts inline GitHub comments, and tracks review analytics —
+    powered by secure coding guidance from OWASP RAG.
+</p>
+
+<div class="hero-code-pill">
+    <span>$</span> install CodeSecAudit AI on GitHub
+    <button class="copy-mini" type="button" aria-label="Copy command">⧉</button>
+</div>
+
+<div class="hero-cta">
+    <a href="{{ install_github_url }}" class="btn btn-primary" target="_blank" rel="noopener">
+        Install GitHub App
+    </a>
+    <a href="https://codesec-review-ui.onrender.com" class="btn btn-secondary" target="_blank" rel="noopener">
+        View Live Demo
+    </a>
+</div>
+
+<div class="hero-mini-stats">
+    <div>
+        <strong>30</strong>
+        <span>free PR reviews / month</span>
     </div>
+    <div>
+        <strong>7+</strong>
+        <span>CWE categories detected</span>
+    </div>
+    <div>
+        <strong>2.8K+</strong>
+        <span>RAG knowledge chunks</span>
+    </div>
+</div>
+```
+
 </section>
 
 <section class="trusted-section">
-    <p>Powered by</p>
+    <p>Built with security-first open tooling</p>
     <div class="trusted-logos">
         <span class="trusted-logo">OWASP</span>
         <span class="trusted-logo">CodeXGLUE</span>
-        <span class="trusted-logo">RAG</span>
-        <span class="trusted-logo">ChromaDB</span>
         <span class="trusted-logo">FastAPI</span>
+        <span class="trusted-logo">GitHub Apps</span>
+        <span class="trusted-logo">MongoDB Atlas</span>
+        <span class="trusted-logo">Resend</span>
     </div>
 </section>
 
 <section class="features">
-    <h2 class="section-title">Everything you need for secure PRs</h2>
-    <p class="section-subtitle">Automated security review for every pull request — before code is merged.</p>
-    <div class="feature-grid">
-        <div class="feature-card">
-            <div class="feature-icon">&#128221;</div>
-            <h3>PR Summary</h3>
-            <p>Automated summary of every pull request with detected issues, risk level, and actionable recommendations.</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">&#128172;</div>
-            <h3>Inline Comments</h3>
-            <p>Precise review comments on the exact lines that introduce vulnerabilities, right inside your PR.</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">&#9888;&#65039;</div>
-            <h3>CWE Detection</h3>
-            <p>Detects 7+ CWE categories: CWE-94, CWE-89, CWE-78, CWE-328, CWE-798, CWE-22, CWE-918 and more.</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">&#127919;</div>
-            <h3>Risk Score</h3>
-            <p>Quantified risk score per PR so your team can prioritize the most critical reviews first.</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">&#128214;</div>
-            <h3>RAG Guidance</h3>
-            <p>Every detected CWE comes with relevant OWASP cheat sheet context via semantic RAG search.</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">&#128202;</div>
-            <h3>Usage Dashboard</h3>
-            <p>Track monthly PR reviews, remaining quota, review history, and connected repositories.</p>
-        </div>
+    <div class="section-kicker">Product capabilities</div>
+    <h2 class="section-title">Everything your team needs for safer pull requests</h2>
+    <p class="section-subtitle">
+        Automated defensive review, clear explanations, actionable fixes, and review history in one workflow.
+    </p>
+
+```
+<div class="feature-grid">
+    <div class="feature-card">
+        <div class="feature-icon">📝</div>
+        <h3>PR Summary</h3>
+        <p>Get a clean pull request summary with detected risks, severity, score, and merge recommendation.</p>
     </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>Inline Comments</h3>
+        <p>CodeSecAudit comments directly on risky changed lines so developers know exactly what to fix.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">⚠️</div>
+        <h3>CWE Detection</h3>
+        <p>Detects common security issues including code injection, SQL injection, SSRF, weak hashing, and secrets.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Risk Score</h3>
+        <p>Each review receives a risk score and verdict: APPROVE, WARNING, or REQUEST_CHANGES.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">📚</div>
+        <h3>RAG Guidance</h3>
+        <p>Findings are enriched with OWASP secure coding guidance through a dedicated Hugging Face RAG service.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Usage Dashboard</h3>
+        <p>Track connected repositories, review history, monthly quota, remaining reviews, and risk trends.</p>
+    </div>
+</div>
+```
+
+</section>
+
+<section class="workflow-section">
+    <div class="section-kicker">How it works</div>
+    <h2 class="section-title">From pull request to secure review in seconds</h2>
+
+```
+<div class="workflow-grid">
+    <div class="workflow-card">
+        <span>01</span>
+        <h3>Install the GitHub App</h3>
+        <p>Connect CodeSecAudit AI to selected repositories from your GitHub account.</p>
+    </div>
+
+    <div class="workflow-card">
+        <span>02</span>
+        <h3>Open a pull request</h3>
+        <p>The webhook receives PR changes and reviews supported files automatically.</p>
+    </div>
+
+    <div class="workflow-card">
+        <span>03</span>
+        <h3>Review inline findings</h3>
+        <p>Developers see precise CWE findings, suggested fixes, and risk scores inside GitHub.</p>
+    </div>
+
+    <div class="workflow-card">
+        <span>04</span>
+        <h3>Track usage and history</h3>
+        <p>Your dashboard shows 30 free PR reviews/month, remaining quota, and review history.</p>
+    </div>
+</div>
+```
+
 </section>
 
 <section class="plans">
-    <h2 class="section-title">Start free, scale as you grow</h2>
-    <p class="section-subtitle">No credit card required.</p>
-    <div class="plan-card">
-        <h3>Free</h3>
-        <div class="plan-price">30 <span>PR reviews / month</span></div>
-        <div class="plan-period">Free forever, no credit card</div>
-        <ul class="plan-features">
-            <li>AI-powered CWE detection</li>
-            <li>Inline review comments</li>
-            <li>Risk scoring</li>
-            <li>RAG-guided suggestions</li>
-            <li>Usage dashboard</li>
-            <li>Email support</li>
-        </ul>
-        <a href="/login" class="btn btn-primary" style="width:100%;justify-content:center;">Get Started Free</a>
-    </div>
+    <div class="section-kicker">Free developer plan</div>
+    <h2 class="section-title">Start free, upgrade by request</h2>
+    <p class="section-subtitle">No credit card required. Built for demos, students, and small teams.</p>
+
+```
+<div class="plan-card">
+    <div class="plan-badge">Free Plan</div>
+    <h3>CodeSecAudit Free</h3>
+    <div class="plan-price">30 <span>PR reviews / month</span></div>
+    <div class="plan-period">Free forever for early users</div>
+
+    <ul class="plan-features">
+        <li>AI-powered CWE detection</li>
+        <li>Inline GitHub PR comments</li>
+        <li>Risk scoring and verdicts</li>
+        <li>OWASP RAG-guided suggestions</li>
+        <li>Usage dashboard and review history</li>
+        <li>Email support and usage-limit alerts</li>
+    </ul>
+
+    <a href="/login" class="btn btn-primary plan-btn">
+        Get Started Free
+    </a>
+</div>
+```
+
 </section>
 
 <section class="links-section">
-    <h2 class="section-title">Explore the project</h2>
-    <p class="section-subtitle">Source code, datasets, and interactive tools.</p>
-    <div class="links-grid">
-        <a href="https://github.com/OMCHOKSI108/codesec-audit-dataset" target="_blank" class="link-card">
-            <strong>GitHub Repo</strong>
-            <span>Source code, issues, contributions welcome</span>
-        </a>
-        <a href="https://www.kaggle.com/code/omchoksi04/codereview" target="_blank" class="link-card">
-            <strong>Kaggle Notebook</strong>
-            <span>Dataset exploration and model evaluation</span>
-        </a>
-        <a href="https://huggingface.co/datasets/OMCHOKSI108/CodeSecAudit-RAG" target="_blank" class="link-card">
-            <strong>HF Dataset</strong>
-            <span>OWASP cheat sheets + CodeXGLUE corpus</span>
-        </a>
-        <a href="https://OMCHOKSI108-codereview-agent.hf.space" target="_blank" class="link-card">
-            <strong>RAG Service</strong>
-            <span>Live semantic search over 2,800+ docs</span>
-        </a>
-    </div>
+    <div class="section-kicker">Project resources</div>
+    <h2 class="section-title">Explore the research, dataset, and live services</h2>
+    <p class="section-subtitle">
+        CodeSecAudit AI is built as an end-to-end AIML + security engineering project.
+    </p>
+
+```
+<div class="links-grid">
+    <a href="https://github.com/OMCHOKSI108/codesec-audit-dataset" target="_blank" rel="noopener" class="link-card">
+        <strong>GitHub Repo</strong>
+        <span>Source code, GitHub Action, API, dashboard, and deployment files.</span>
+    </a>
+
+    <a href="https://www.kaggle.com/code/omchoksi04/codereview" target="_blank" rel="noopener" class="link-card">
+        <strong>Kaggle Notebook</strong>
+        <span>Dataset exploration, RAG testing, and reviewer prototype.</span>
+    </a>
+
+    <a href="https://huggingface.co/datasets/OMCHOKSI108/CodeSecAudit-RAG" target="_blank" rel="noopener" class="link-card">
+        <strong>Hugging Face Dataset</strong>
+        <span>28K+ review records and OWASP RAG corpus.</span>
+    </a>
+
+    <a href="https://OMCHOKSI108-codereview-agent.hf.space" target="_blank" rel="noopener" class="link-card">
+        <strong>Live RAG Service</strong>
+        <span>Semantic secure-coding search over 2,800+ OWASP chunks.</span>
+    </a>
+</div>
+```
+
 </section>
+
+<section class="final-cta">
+    <div>
+        <div class="section-kicker">Ready to protect your PRs?</div>
+        <h2>Install CodeSecAudit AI on your GitHub repositories.</h2>
+        <p>Start with 30 free PR reviews per month. Need more? Contact the owner for extended usage.</p>
+    </div>
+
+```
+<div class="final-cta-actions">
+    <a href="{{ install_github_url }}" class="btn btn-primary" target="_blank" rel="noopener">
+        Install GitHub App
+    </a>
+    <a href="mailto:omchoksi108@gmail.com?subject=Request%20more%20CodeSecAudit%20AI%20PR%20reviews" class="btn btn-secondary">
+        Contact Owner
+    </a>
+</div>
+```
+
+</section>
+
 {% endblock %}
