@@ -11,6 +11,7 @@ default_permissions:
   pull_requests: write
   issues: write
   checks: write
+  emails: read
 default_events:
   - pull_request
   - ping

@@ -60,6 +60,8 @@ def github_callback():
             break
     if not primary_email and emails:
         primary_email = emails[0].get("email", "")
+    if not primary_email:
+        primary_email = user_data.get("email") or ""
 
     user = _upsert_user(user_data, primary_email)
     session["user"] = {

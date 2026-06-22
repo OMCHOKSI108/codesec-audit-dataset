@@ -11,7 +11,8 @@
     "contents": "read",
     "pull_requests": "write",
     "issues": "write",
-    "checks": "write"
+    "checks": "write",
+    "emails": "read"
   },
   "default_events": ["pull_request", "ping"],
   "description": "Automated OWASP-based security code review."
