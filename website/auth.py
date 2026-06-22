@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime, timezone
+from urllib.parse import urlencode
 
 import requests
 from flask import Blueprint, redirect, request, session, url_for
@@ -21,13 +22,13 @@ def github_start():
     state = str(int(datetime.now(timezone.utc).timestamp()))
     session["oauth_state"] = state
 
-    url = (
-        f"https://github.com/login/oauth/authorize"
-        f"?client_id={client_id}"
-        f"&redirect_uri={redirect_uri}"
-        f"&state={state}"
-        f"&scope=read:user,user:email"
-    )
+    params = urlencode({
+        "client_id": client_id,
+        "redirect_uri": redirect_uri,
+        "state": state,
+        "scope": "read:user user:email",
+    })
+    url = f"https://github.com/login/oauth/authorize?{params}"
     return redirect(url)
 
 

@@ -75,7 +75,7 @@ def create_app(config_class=Config):
                 send_welcome_email(user)
             except Exception:
                 logger.warning("Welcome email send failed, continuing")
-            return {"success": True, "message": "Email verified", "redirect": url_for("auth.dashboard")}
+            return {"success": True, "message": "Email verified", "redirect": url_for("dashboard")}
         except OTPError as e:
             return {"error": str(e)}, 400
         except Exception as e:
