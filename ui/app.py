@@ -1,8 +1,9 @@
+import os
 import streamlit as st
 import requests
 import json
 
-API_URL = "http://localhost:8003"
+API_URL = os.environ.get("CODESEC_API_URL", "http://localhost:8003")
 TOP_K = 5
 
 st.set_page_config(
