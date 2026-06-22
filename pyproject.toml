@@ -19,6 +19,8 @@ api = [
     "codesec-audit-ai[core]",
     "fastapi>=0.100.0",
     "uvicorn[standard]>=0.20.0",
+    "pyjwt>=2.0.0",
+    "cryptography>=3.4.0",
 ]
 ui = [
     "codesec-audit-ai[core]",

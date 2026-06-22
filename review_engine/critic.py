@@ -127,11 +127,33 @@ def _dedup_key(issue: dict) -> str:
     return f"{issue.get('file')}|{issue.get('line')}|{issue['cwe_id']}|{issue['code_snippet']}"
 
 
+def _build_suppression_map(lines: list[str]) -> dict[int, set[str] | None]:
+    suppressed: dict[int, set[str] | None] = {}
+    for i, line in enumerate(lines):
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if "codesec-ignore-next-line" in stripped:
+            m = re.search(r"codesec-ignore-next-line\s*:\s*(CWE-\d+)", stripped)
+            if m:
+                suppressed.setdefault(i + 2, set()).add(m.group(1))
+            else:
+                suppressed[i + 2] = None
+        if "codesec-ignore" in stripped and "codesec-ignore-next-line" not in stripped:
+            m = re.search(r"codesec-ignore\s*:\s*(CWE-\d+)", stripped)
+            if m:
+                suppressed.setdefault(i + 1, set()).add(m.group(1))
+            else:
+                suppressed[i + 1] = None
+    return suppressed
+
+
 def detect_issues(code: str, file_path: Optional[str] = None) -> list[dict]:
     issues: list[dict] = []
     rule_counts: dict[str, int] = {}
     seen_dedup: set[str] = set()
     lines = code.splitlines(keepends=False)
+    suppression_map = _build_suppression_map(lines)
 
     for line_no, line in enumerate(lines, start=1):
         if len(issues) >= MAX_TOTAL_FINDINGS:
@@ -165,6 +187,10 @@ def detect_issues(code: str, file_path: Optional[str] = None) -> list[dict]:
                     dk = _dedup_key(candidate)
                     if dk in seen_dedup:
                         continue
+                    if line_no in suppression_map:
+                        sc = suppression_map[line_no]
+                        if sc is None or rule["cwe_id"] in sc:
+                            continue
                     seen_dedup.add(dk)
                     rule_counts[rule["id"]] = rule_counts.get(rule["id"], 0) + 1
                     issues.append(candidate)

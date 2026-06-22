@@ -35,6 +35,51 @@ MAX_INLINE_COMMENTS = 10
 
 GITHUB_API_BASE = "https://api.github.com"
 
+_CONFIG: dict = {}
+_IGNORE_PATTERNS_FROM_FILE: list[str] = []
+
+
+def _load_config() -> None:
+    global _CONFIG, _IGNORE_PATTERNS_FROM_FILE, MAX_INLINE_COMMENTS, SUPPORTED_EXTENSIONS
+    workspace = os.environ.get("GITHUB_WORKSPACE", ".")
+
+    yml_path = Path(workspace) / ".codesec.yml"
+    if yml_path.exists():
+        try:
+            import yaml
+            _CONFIG = yaml.safe_load(yml_path.read_text()) or {}
+        except ImportError:
+            print("  [config] Install PyYAML to read .codesec.yml; using defaults", file=sys.stderr)
+        except Exception as e:
+            print(f"  [config] Error loading .codesec.yml: {e}", file=sys.stderr)
+
+    if "max_inline_comments" in _CONFIG:
+        MAX_INLINE_COMMENTS = int(_CONFIG["max_inline_comments"])
+    if "supported_extensions" in _CONFIG:
+        SUPPORTED_EXTENSIONS = set(_CONFIG["supported_extensions"])
+
+    ignore_path = Path(workspace) / ".codesecignore"
+    if ignore_path.exists():
+        for raw in ignore_path.read_text().splitlines():
+            line = raw.strip()
+            if line and not line.startswith("#"):
+                _IGNORE_PATTERNS_FROM_FILE.append(line)
+
+
+def _matches_pattern(pattern: str, path_str: str) -> bool:
+    pp = Path(path_str)
+    if pattern.startswith("/"):
+        pattern = pattern[1:]
+    dir_only = pattern.endswith("/")
+    if dir_only:
+        pattern = pattern[:-1]
+    if "/" in pattern:
+        return pp.match(pattern)
+    else:
+        if dir_only:
+            return pattern in pp.parts
+        return any(Path(p).match(pattern) for p in pp.parts) or pp.match(pattern)
+
 
 def _should_skip(path: str) -> bool:
     parts = Path(path).parts
@@ -49,6 +94,10 @@ def _should_skip(path: str) -> bool:
     ext = Path(path).suffix
     if ext not in SUPPORTED_EXTENSIONS:
         return True
+    if _IGNORE_PATTERNS_FROM_FILE:
+        for pat in _IGNORE_PATTERNS_FROM_FILE:
+            if _matches_pattern(pat, path):
+                return True
     return False
 
 
@@ -580,6 +629,8 @@ def _ci_run():
 # --- Main ---
 
 def main():
+    _load_config()
+
     # Quick self-test of patch parser
     try:
         _parse_patch_check()
@@ -612,11 +663,18 @@ def main():
                     file_results.append(review_code(code=code, file_path=fp, use_rag=False))
         else:
             changed = _get_changed_files_from_git("HEAD~1", "HEAD")
-            supported = [Path(f) for f in changed if not _should_skip(f)]
+            supported = []
+            skipped: list[str] = []
+            for f in changed:
+                (supported if not _should_skip(f) else skipped).append(f)
+            if skipped:
+                print("  Skipped files:", file=sys.stderr)
+                for sf in skipped:
+                    print(f"    - {sf}", file=sys.stderr)
             if not supported:
-                print("No changed files detected via git diff. Use --files for explicit paths.", file=sys.stderr)
+                print("No supported changed files detected. Use --files for explicit paths.", file=sys.stderr)
                 return
-            sources = [str(p) for p in supported]
+            sources = list(map(str, supported))
             markdown = _dry_run_report(explicit_files=sources)
             file_results = []
             for fp in sources:

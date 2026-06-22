@@ -1,0 +1,41 @@
+# CodeSecAudit AI — Configuration
+# Place this file in the repository root to customize review behavior.
+
+supported_extensions:
+  - .py
+  - .js
+  - .ts
+  - .jsx
+  - .tsx
+
+ignored_paths:
+  - "docs/"
+  - "notebooks/"
+  - "release/"
+  - "dist/"
+  - "deploy/"
+  - "data/"
+  - "scripts/check_*deployment*.py"
+  - "scripts/check_render_*.py"
+  - "scripts/deploy_*.py"
+  - "scripts/prepare_hf_*.py"
+  - "tests/"
+  - "test_*"
+  - "*_test.py"
+  - "build/"
+  - "node_modules/"
+  - ".venv/"
+  - "venv/"
+  - "env/"
+
+max_inline_comments: 10
+
+# If true, exit with non-zero status when issues are found (CI blocking mode).
+fail_on_issues: false
+
+# If false, skip example files during PR review (safe for CI).
+# Set to true to scan examples/vulnerable_pr_demo.py etc.
+scan_examples: false
+
+# If false, skip test files during PR review.
+scan_tests: false

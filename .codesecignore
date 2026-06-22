@@ -1,0 +1,48 @@
+# CodeSecAudit AI — Ignore patterns
+# Syntax: .gitignore-style glob patterns
+# Files and paths matching these patterns will be skipped during PR review.
+
+# Documentation, notebooks, and data
+docs/
+notebooks/
+release/
+dist/
+deploy/
+data/
+
+# Test and CI files
+tests/
+test_*
+*_test.py
+
+# Deployment/check scripts (no real code to review)
+scripts/check_*deployment*.py
+scripts/check_render_*.py
+scripts/deploy_*.py
+scripts/prepare_hf_*.py
+
+# Build artifacts
+build/
+__pycache__/
+*.pyc
+*.pyo
+*.min.js
+*.lock
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Virtual environments
+node_modules/
+.venv/
+venv/
+env/
+
+# Config and env files
+.env*
+*.yml
+*.yaml
+*.cfg
+*.ini
+*.toml
+*.json

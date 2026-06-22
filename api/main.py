@@ -1,9 +1,11 @@
+import hashlib
+import hmac
 import json
 import os
 import time
 from typing import Optional
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request
 from pydantic import BaseModel, Field
 
 from review_engine.pipeline import review_code as engine_review
@@ -190,3 +192,84 @@ def get_review_endpoint(review_id: str):
 @app.get("/stats")
 def stats_endpoint():
     return get_stats()
+
+
+# --- GitHub App Webhook ---
+
+@app.post("/webhook/github")
+async def github_webhook(request: Request):
+    secret = os.environ.get("GITHUB_APP_WEBHOOK_SECRET", "")
+    signature = request.headers.get("X-Hub-Signature-256", "")
+    event_type = request.headers.get("X-GitHub-Event", "")
+    body = await request.body()
+
+    if secret and signature:
+        expected = "sha256=" + hmac.new(secret.encode(), body, hashlib.sha256).hexdigest()
+        if not hmac.compare_digest(expected, signature):
+            raise HTTPException(status_code=401, detail="Invalid signature")
+
+    if not event_type or event_type == "ping":
+        return {"status": "ok", "event": event_type}
+
+    payload = json.loads(body)
+    from review_engine.github_app import handle_event
+    result = handle_event(event_type, payload)
+    return result
+
+
+class ManifestRequest(BaseModel):
+    manifest: dict
+
+
+@app.get("/register/github-app")
+def register_github_app():
+    manifest = {
+        "name": "codesec-audit-ai",
+        "url": "https://codesec-api.onrender.com",
+        "hook_attributes": {
+            "url": "https://codesec-api.onrender.com/webhook/github",
+            "active": True,
+        },
+        "redirect_url": "https://codesec-api.onrender.com/register/github-app/callback",
+        "public": False,
+        "default_permissions": {
+            "contents": "read",
+            "pull_requests": "write",
+            "issues": "write",
+            "checks": "write",
+        },
+        "default_events": ["pull_request", "ping"],
+        "description": "Automated OWASP-based security code review.",
+    }
+    import urllib.parse
+    url = f"https://github.com/settings/apps/new?manifest={urllib.parse.quote(json.dumps(manifest))}"
+    return {
+        "message": "Open this URL in your browser to register the GitHub App",
+        "url": url,
+    }
+
+
+@app.get("/register/github-app/callback")
+def github_app_callback(code: str = Query(...)):
+    import urllib.request
+    try:
+        req = urllib.request.Request(
+            f"https://api.github.com/app-manifests/{code}/conversions",
+            method="POST",
+            headers={"Accept": "application/vnd.github.v3+json",
+                     "User-Agent": "codesec-audit-ai"},
+        )
+        resp = urllib.request.urlopen(req, timeout=30)
+        creds = json.loads(resp.read())
+        return {
+            "message": "GitHub App registered! Set these as Render env vars:",
+            "env_vars": {
+                "GITHUB_APP_ID": str(creds["id"]),
+                "GITHUB_APP_PRIVATE_KEY": creds["pem"],
+                "GITHUB_APP_WEBHOOK_SECRET": creds.get("webhook_secret", ""),
+            },
+            "app_slug": creds.get("slug", ""),
+            "html_url": creds.get("html_url", ""),
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
