@@ -3,6 +3,9 @@
 .env
 .env.*
 kaggle.json
+secrets/
+*.pem
+github_app_credentials.local.json
 
 # release temp files
 release/

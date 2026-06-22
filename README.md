@@ -170,6 +170,17 @@ flask --app website.app run --port 5000
 
 See [docs/website.md](docs/website.md) for env vars and deployment.
 
+### GitHub App Setup
+
+```bash
+python scripts/create_github_app_manifest.py
+# Open the URL → create app → run:
+python scripts/complete_github_app_manifest.py --code YOUR_CODE
+python scripts/apply_github_app_env.py --write
+```
+
+See [docs/github_app_setup.md](docs/github_app_setup.md) for full instructions.
+
 ---
 
 ## GitHub Action Usage
