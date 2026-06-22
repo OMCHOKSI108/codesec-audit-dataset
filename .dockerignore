@@ -1,0 +1,15 @@
+.git
+.env
+__pycache__
+*.pyc
+.venv
+venv
+data/raw
+data/final/review_combined
+data/processed
+data/final/rag_index
+release
+notebooks
+.ipynb_checkpoints
+*.db
+*.sqlite

@@ -1,0 +1,23 @@
+
+# secrets
+.env
+.env.*
+kaggle.json
+
+# release temp files
+release/
+*.log
+
+# local database
+data/app/
+*.db
+*.sqlite
+
+# data files (large, separate dataset repo)
+data/
+
+# build artifacts
+dist/
+__pycache__/
+*.pyc
+*.pyo

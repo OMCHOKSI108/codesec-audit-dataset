@@ -1,0 +1,49 @@
+services:
+
+  api:
+    build: .
+    image: codesec-audit-api:latest
+    container_name: codesec-api
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8003
+    ports:
+      - "8003:8003"
+    volumes:
+      - codesec_data:/app/data/app
+    environment:
+      - CODESEC_DB_PATH=/app/data/app/reviews.db
+      - CODESEC_ENABLE_RAG=false
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8003/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  review-ui:
+    build: .
+    image: codesec-audit-review-ui:latest
+    container_name: codesec-review-ui
+    command: streamlit run ui/app.py --server.port 8501 --server.address 0.0.0.0
+    ports:
+      - "8501:8501"
+    environment:
+      - CODESEC_API_URL=http://api:8003
+    depends_on:
+      api:
+        condition: service_healthy
+
+  dashboard:
+    build: .
+    image: codesec-audit-dashboard:latest
+    container_name: codesec-dashboard
+    command: streamlit run ui/dashboard.py --server.port 8502 --server.address 0.0.0.0
+    ports:
+      - "8502:8502"
+    environment:
+      - CODESEC_API_URL=http://api:8003
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  codesec_data:

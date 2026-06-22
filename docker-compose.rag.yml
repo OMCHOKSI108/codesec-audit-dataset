@@ -1,0 +1,15 @@
+services:
+  api:
+    build:
+      args:
+        INSTALL_RAG: "true"
+    environment:
+      - CODESEC_ENABLE_RAG=true
+
+  review-ui:
+    environment:
+      - CODESEC_ENABLE_RAG=true
+
+  dashboard:
+    environment:
+      - CODESEC_ENABLE_RAG=true
