@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY pyproject.toml ./
 
-RUN pip install --no-cache-dir -e ".[api,ui]"
+RUN pip install --no-cache-dir -e ".[api,ui,website]"
 
 COPY review_engine/ review_engine/
 COPY review_store/ review_store/
