@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Error {{ code }} — {{ app_name }}{% endblock %}
+{% block content %}
+<section class="page-section" style="text-align:center;padding-top:4rem">
+    <h1 style="font-size:4rem;color:var(--accent)">{{ code }}</h1>
+    <p style="font-size:1.25rem;color:var(--text-muted);margin:1rem 0">{{ message }}</p>
+    <a href="/" class="btn btn-primary" style="margin-top:1.5rem">Go Home</a>
+</section>
+{% endblock %}

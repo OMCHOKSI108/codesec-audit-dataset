@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — {{ app_name }}{% endblock %}
+{% block content %}
+<section class="dashboard">
+    <div class="dashboard-header">
+        <div class="user-info">
+            {% if user.avatar_url %}
+            <img src="{{ user.avatar_url }}" alt="" class="avatar" width="48" height="48">
+            {% endif %}
+            <div>
+                <h1>{{ user.username or user.email }}</h1>
+                <p class="plan-badge">{{ user.plan or 'free' | upper }} plan</p>
+            </div>
+        </div>
+        <a href="{{ install_github_url }}" class="btn btn-primary" target="_blank">Install GitHub App</a>
+    </div>
+
+    <div class="usage-card">
+        <h2>Monthly Usage</h2>
+        <div class="usage-stats">
+            <div class="usage-stat">
+                <span class="stat-value">{{ usage.used }}</span>
+                <span class="stat-label">Used</span>
+            </div>
+            <div class="usage-stat">
+                <span class="stat-value">{{ usage.remaining }}</span>
+                <span class="stat-label">Remaining</span>
+            </div>
+            <div class="usage-stat">
+                <span class="stat-value">{{ usage.limit }}</span>
+                <span class="stat-label">Limit</span>
+            </div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {{ usage.percent }}%"></div>
+        </div>
+        {% if usage.reset_date %}
+        <p class="reset-info">Resets: {{ usage.reset_date }}</p>
+        {% endif %}
+        {% if usage.remaining <= 0 %}
+        <div class="alert alert-warning">Free monthly limit reached. <a href="/contact">Contact owner</a> for more.</div>
+        {% endif %}
+    </div>
+
+    <div class="recent-reviews">
+        <h2>Recent Reviews</h2>
+        {% if reviews %}
+        <div class="reviews-table-wrapper">
+            <table class="reviews-table">
+                <thead>
+                    <tr>
+                        <th>PR</th>
+                        <th>Repo</th>
+                        <th>Verdict</th>
+                        <th>Risk</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in reviews %}
+                    <tr>
+                        <td>{{ r.get('pr_number', r.get('pr', '?')) }}</td>
+                        <td>{{ r.get('repo', '?') }}</td>
+                        <td><span class="verdict {{ r.get('verdict', 'unknown')|lower }}">{{ r.get('verdict', '?') }}</span></td>
+                        <td>{{ r.get('risk_score', '?') }}</td>
+                        <td>{{ r.get('created_at', '')[:10] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="empty-state">No reviews yet. Install the GitHub App and open a PR to get started.</p>
+        {% endif %}
+    </div>
+
+    <div class="dashboard-footer">
+        <a href="/usage" class="btn btn-secondary">View Full Usage</a>
+        <a href="/reviews" class="btn btn-secondary">All Reviews</a>
+        <a href="/contact" class="btn btn-secondary">Need More? Contact Owner</a>
+    </div>
+</section>
+{% endblock %}

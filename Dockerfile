@@ -19,13 +19,18 @@ COPY review_engine/ review_engine/
 COPY review_store/ review_store/
 COPY api/ api/
 COPY ui/ ui/
+COPY website/ website/
 COPY scripts/ scripts/
 COPY examples/ examples/
 COPY docs/ docs/
+COPY deploy/render/website_start.sh /website_start.sh
+RUN chmod +x /website_start.sh
 
 RUN if [ "$INSTALL_RAG" = "true" ]; then \
         pip install --no-cache-dir -e ".[rag]"; \
     fi
+
+RUN pip install --no-cache-dir gunicorn
 
 COPY render_entrypoint.sh /render_entrypoint.sh
 RUN chmod +x /render_entrypoint.sh

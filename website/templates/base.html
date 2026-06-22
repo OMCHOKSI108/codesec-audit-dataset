@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ app_name }}{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">{{ app_name }}</a>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                {% if logged_in %}
+                    <a href="/dashboard">Dashboard</a>
+                    <a href="/reviews">Reviews</a>
+                    <a href="/usage">Usage</a>
+                    <a href="/repos">Repos</a>
+                    <a href="/logout">Logout</a>
+                {% else %}
+                    <a href="/login">Sign In</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <p>&copy; {{ current_year }} {{ app_name }}. Built with RAG-powered OWASP guidance.</p>
+            <div class="footer-links">
+                <a href="https://github.com/OMCHOKSI108/codesec-audit-dataset" target="_blank">GitHub</a>
+                <a href="https://www.kaggle.com/code/omchoksi04/codereview" target="_blank">Kaggle</a>
+                <a href="https://huggingface.co/datasets/OMCHOKSI108/CodeSecAudit-RAG" target="_blank">Dataset</a>
+                <a href="/contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

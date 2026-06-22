@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Settings — {{ app_name }}{% endblock %}
+{% block content %}
+<section class="page-section">
+    <h1>Settings</h1>
+
+    <div class="settings-card" style="max-width:500px;margin:2rem auto">
+        <div class="user-info" style="margin-bottom:2rem">
+            {% if user.avatar_url %}
+            <img src="{{ user.avatar_url }}" alt="" class="avatar" width="64" height="64">
+            {% endif %}
+            <div>
+                <h2>{{ user.username or 'User' }}</h2>
+                <p style="color:var(--text-muted)">{{ user.email }}</p>
+            </div>
+        </div>
+
+        <div class="setting-row">
+            <span>Plan</span>
+            <span class="plan-badge">{{ (user.plan or 'free') | upper }}</span>
+        </div>
+        <div class="setting-row">
+            <span>Email Verified</span>
+            <span>{{ 'Yes' if user.email_verified else 'No' }}</span>
+        </div>
+        <div class="setting-row">
+            <span>GitHub ID</span>
+            <span>{{ user.github_id }}</span>
+        </div>
+        <div class="setting-row">
+            <span>Reviews Used</span>
+            <span>{{ user.reviews_used or 0 }} / {{ user.reviews_limit or 30 }}</span>
+        </div>
+
+        <p style="color:var(--text-muted);margin-top:2rem;text-align:center;font-size:0.875rem">
+            Account management features coming soon.
+        </p>
+    </div>
+</section>
+{% endblock %}

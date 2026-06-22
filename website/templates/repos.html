@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Repos — {{ app_name }}{% endblock %}
+{% block content %}
+<section class="page-section">
+    <h1>Connected Repositories</h1>
+
+    <div class="empty-state" style="margin-top:3rem">
+        <p>Installed GitHub App repositories will appear here.</p>
+        <p style="margin-top:0.5rem">Install the GitHub App on your repositories to get started with automated PR reviews.</p>
+        <a href="{{ install_github_url }}" class="btn btn-primary" target="_blank" style="margin-top:1.5rem">
+            Install GitHub App
+        </a>
+    </div>
+</section>
+{% endblock %}

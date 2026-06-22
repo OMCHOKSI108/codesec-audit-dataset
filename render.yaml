@@ -1,0 +1,88 @@
+services:
+  - type: web
+    name: codesec-api
+    env: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: RENDER_SERVICE
+        value: api
+      - key: PORT
+        value: "8003"
+      - key: CODESEC_API_URL
+        value: https://codesec-api.onrender.com
+      - key: CODESEC_ENABLE_RAG
+        value: "true"
+      - key: CODESEC_MAX_FILES_PER_PR
+        value: "30"
+      - key: CODESEC_MAX_FILE_SIZE_KB
+        value: "200"
+      - key: CODESEC_MAX_INLINE_COMMENTS
+        value: "10"
+      - key: CODESEC_DEFAULT_TOP_K
+        value: "3"
+      - key: CODESEC_BLOCK_ON_REQUEST_CHANGES
+        value: "false"
+      - key: OWNER_EMAIL
+        value: omchoksi108@gmail.com
+      - key: OWNER_CONTACT_EMAIL
+        value: omchoksi108@gmail.com
+
+  - type: web
+    name: codesec-dashboard
+    env: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: RENDER_SERVICE
+        value: dashboard
+      - key: PORT
+        value: "8502"
+      - key: CODESEC_API_URL
+        value: https://codesec-api.onrender.com
+
+  - type: web
+    name: codesec-review-ui
+    env: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: RENDER_SERVICE
+        value: review-ui
+      - key: PORT
+        value: "8501"
+      - key: CODESEC_API_URL
+        value: https://codesec-api.onrender.com
+
+  - type: web
+    name: codesec-website
+    env: docker
+    dockerfilePath: ./deploy/render/website.Dockerfile
+    dockerContext: .
+    envVars:
+      - key: PUBLIC_WEBSITE_URL
+        value: https://codesec-website.onrender.com
+      - key: CODESEC_API_URL
+        value: https://codesec-api.onrender.com
+      - key: GITHUB_CLIENT_ID
+        sync: false
+      - key: GITHUB_CLIENT_SECRET
+        sync: false
+      - key: GITHUB_CALLBACK_URL
+        value: https://codesec-website.onrender.com/auth/github/callback
+      - key: GITHUB_APP_SLUG
+        value: codesecaudit-ai
+      - key: SESSION_SECRET
+        sync: false
+      - key: MONGODB_URI
+        sync: false
+      - key: MONGODB_DB_NAME
+        value: codereview
+      - key: RESEND_API_KEY
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+      - key: OWNER_CONTACT_EMAIL
+        value: omchoksi108@gmail.com
+      - key: FREE_PR_REVIEWS_PER_MONTH
+        value: "30"

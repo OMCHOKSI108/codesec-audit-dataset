@@ -13,6 +13,9 @@ case "$SERVICE" in
   review-ui)
     exec streamlit run ui/app.py --server.address 0.0.0.0 --server.port "${PORT:-8501}" --server.headless true
     ;;
+  website)
+    exec gunicorn website.app:app --bind 0.0.0.0:"${PORT:-10000}"
+    ;;
   *)
     echo "Unknown RENDER_SERVICE: $SERVICE (use: api, dashboard, review-ui)"
     exit 1
