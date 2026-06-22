@@ -27,4 +27,9 @@ RUN if [ "$INSTALL_RAG" = "true" ]; then \
         pip install --no-cache-dir -e ".[rag]"; \
     fi
 
+COPY render_entrypoint.sh /render_entrypoint.sh
+RUN chmod +x /render_entrypoint.sh
+
 EXPOSE 8003 8501 8502
+
+ENTRYPOINT ["/render_entrypoint.sh"]
