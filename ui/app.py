@@ -69,26 +69,39 @@ if st.button("Review", type="primary"):
             st.error(f"Error: {e}")
             st.stop()
 
-    cwe_summary = result.get("cwe_summary", {})
+    issues = result.get("issues", [])
+    cwe_counts: dict[str, int] = {}
+    all_contexts: list[dict] = []
+    seen_ctx: set[str] = set()
+
+    for issue in issues:
+        cwe = issue.get("cwe_id", "")
+        if cwe:
+            cwe_counts[cwe] = cwe_counts.get(cwe, 0) + 1
+        for ctx in issue.get("retrieved_context", []):
+            key = f"{ctx.get('title','')}|{ctx.get('section','')}"
+            if key not in seen_ctx:
+                seen_ctx.add(key)
+                all_contexts.append(ctx)
 
     st.subheader("Detected CWEs")
-    if cwe_summary:
-        cols = st.columns(len(cwe_summary))
-        for col, (cwe, count) in zip(cols, sorted(cwe_summary.items())):
+    if cwe_counts:
+        cols = st.columns(len(cwe_counts))
+        for col, (cwe, count) in zip(cols, sorted(cwe_counts.items())):
             col.metric(cwe, count)
     else:
         st.info("No specific CWE types identified.")
 
-    st.subheader(f"Top {len(result['contexts'])} Relevant Contexts")
-    for i, ctx in enumerate(result["contexts"], 1):
+    st.subheader(f"Top {len(all_contexts)} Relevant Contexts")
+    for i, ctx in enumerate(all_contexts, 1):
         with st.expander(
-            f"[{i}] {ctx['title']} → {ctx['section']}  ({ctx['cwe_id']})"
+            f"[{i}] {ctx.get('title','?')} → {ctx.get('section','?')}  ({ctx.get('cwe_id','?')})"
         ):
-            st.markdown(f"**Source:** `{ctx['source']}`")
-            st.markdown(f"**CWE:** {ctx['cwe_id']}")
+            st.markdown(f"**Source:** `{ctx.get('source','?')}`")
+            st.markdown(f"**CWE:** {ctx.get('cwe_id','?')}")
             st.text_area(
                 "Content",
-                ctx["content"],
+                ctx.get("content", ""),
                 height=200,
                 key=f"ctx_{i}",
             )
