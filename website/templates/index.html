@@ -3,7 +3,119 @@
 
 {% block content %}
 
-<section class="hero hero-gradient">
+<style>
+    /* Typography & Base Reset */
+    :root {
+        --primary-color: #0f172a;
+        --secondary-color: #3b82f6;
+        --text-main: #334155;
+        --text-muted: #64748b;
+        --bg-light: #f8fafc;
+        --border-color: #e2e8f0;
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: var(--text-main);
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3 {
+        color: var(--primary-color);
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    a { text-decoration: none; }
+    
+    section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .section-kicker { color: var(--secondary-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.875rem; margin-bottom: 0.5rem;}
+    .section-title { font-size: 2.25rem; margin-bottom: 1rem; }
+    .section-subtitle { color: var(--text-muted); font-size: 1.125rem; max-width: 600px; margin-bottom: 3rem; }
+
+    /* Buttons */
+    .btn { display: inline-block; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 500; transition: all 0.2s; }
+    .btn-primary { background: var(--primary-color); color: white; border: 1px solid var(--primary-color); }
+    .btn-primary:hover { background: #1e293b; color: white; }
+    .btn-secondary { background: white; color: var(--primary-color); border: 1px solid var(--border-color); }
+    .btn-secondary:hover { background: var(--bg-light); }
+
+    /* Hero Section (No Gradient, Solid Clean Background) */
+    .hero { text-align: center; background-color: var(--bg-light); border-bottom: 1px solid var(--border-color); padding: 6rem 2rem; border-radius: 12px; margin-top: 2rem; }
+    .hero-pill-row { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; }
+    .hero-badge { background: white; border: 1px solid var(--border-color); padding: 0.25rem 0.75rem; border-radius: 99px; font-size: 0.875rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; }
+    .hero-badge-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; }
+    .hero-title { font-size: 3.5rem; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+    .hero-title span { color: var(--secondary-color); }
+    .hero-subtitle { font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto 2rem auto; }
+    
+    .hero-code-pill { background: #1e293b; color: #e2e8f0; font-family: monospace; display: inline-flex; align-items: center; gap: 1rem; padding: 0.75rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; }
+    .hero-code-pill span { color: #10b981; }
+    .copy-mini { background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 1.2rem; }
+    .copy-mini:hover { color: white; }
+    
+    .hero-cta { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; }
+    .hero-mini-stats { display: flex; justify-content: center; gap: 3rem; border-top: 1px solid var(--border-color); padding-top: 2rem; }
+    .hero-mini-stats div { display: flex; flex-direction: column; align-items: center; }
+    .hero-mini-stats strong { font-size: 1.5rem; color: var(--primary-color); }
+    .hero-mini-stats span { font-size: 0.875rem; color: var(--text-muted); }
+
+    /* Trusted Section */
+    .trusted-section { text-align: center; padding: 3rem 2rem; background: white; }
+    .trusted-section p { color: var(--text-muted); font-weight: 500; margin-bottom: 1.5rem; }
+    .trusted-logos { display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; }
+    .trusted-logo { font-weight: 600; color: #94a3b8; font-size: 1.125rem; }
+
+    /* Grids for Features & Workflow */
+    .feature-grid, .workflow-grid, .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    
+    /* Cards */
+    .feature-card, .workflow-card, .link-card { background: white; padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color); transition: transform 0.2s, box-shadow 0.2s; }
+    .feature-card:hover, .link-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
+    .feature-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .feature-card h3 { margin-bottom: 0.5rem; font-size: 1.25rem; }
+    
+    /* Workflow Steps */
+    .workflow-card span { display: inline-block; background: var(--bg-light); color: var(--secondary-color); font-weight: 700; padding: 0.5rem 1rem; border-radius: 6px; margin-bottom: 1rem; }
+    
+    /* Plans */
+    .plans { text-align: center; }
+    .plans .section-subtitle { margin: 0 auto 3rem auto; }
+    .plan-card { background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 3rem; max-width: 400px; margin: 0 auto; text-align: left; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+    .plan-badge { background: var(--bg-light); color: var(--primary-color); display: inline-block; padding: 0.25rem 0.75rem; border-radius: 99px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; }
+    .plan-price { font-size: 3rem; font-weight: 700; color: var(--primary-color); margin-bottom: 0.5rem; }
+    .plan-price span { font-size: 1rem; color: var(--text-muted); font-weight: 400; }
+    .plan-period { color: var(--text-muted); margin-bottom: 2rem; font-size: 0.875rem; }
+    .plan-features { list-style: none; padding: 0; margin-bottom: 2rem; }
+    .plan-features li { margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-main); }
+    .plan-features li::before { content: "✓"; position: absolute; left: 0; color: #22c55e; font-weight: bold; }
+    .plan-btn { width: 100%; text-align: center; box-sizing: border-box; }
+
+    /* Links Section */
+    .link-card { display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+    .link-card strong { color: var(--primary-color); font-size: 1.125rem; margin-bottom: 0.5rem; }
+    .link-card span { color: var(--text-muted); font-size: 0.875rem; }
+
+    /* Final CTA */
+    .final-cta { text-align: center; background: var(--primary-color); color: white; border-radius: 12px; padding: 4rem 2rem; margin-bottom: 4rem; }
+    .final-cta h2 { color: white; margin-bottom: 1rem; }
+    .final-cta p { color: #94a3b8; max-width: 600px; margin: 0 auto 2rem auto; }
+    .final-cta-actions { display: flex; justify-content: center; gap: 1rem; }
+    .final-cta .btn-secondary { background: transparent; color: white; border-color: #475569; }
+    .final-cta .btn-secondary:hover { background: #1e293b; }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .hero-title { font-size: 2.5rem; }
+        .hero-cta, .hero-mini-stats, .final-cta-actions { flex-direction: column; }
+        .hero-mini-stats { gap: 1.5rem; }
+    }
+</style>
+
+<section class="hero">
     <div class="hero-pill-row">
         <div class="hero-badge">
             <span class="hero-badge-dot"></span>
@@ -14,48 +126,45 @@
         </div>
     </div>
 
+    <h1 class="hero-title">
+        The AI code review layer<br>
+        that protects your <span>pull requests.</span>
+    </h1>
 
-<h1 class="hero-title">
-    The AI code review layer<br>
-    that protects your <span>pull requests.</span>
-</h1>
+    <p class="hero-subtitle">
+        CodeSecAudit AI reviews changed code before merge, detects risky patterns,
+        maps findings to CWE, posts inline GitHub comments, and tracks review analytics —
+        powered by secure coding guidance from OWASP RAG.
+    </p>
 
-<p class="hero-subtitle">
-    CodeSecAudit AI reviews changed code before merge, detects risky patterns,
-    maps findings to CWE, posts inline GitHub comments, and tracks review analytics —
-    powered by secure coding guidance from OWASP RAG.
-</p>
-
-<div class="hero-code-pill">
-    <span>$</span> install CodeSecAudit AI on GitHub
-    <button class="copy-mini" type="button" aria-label="Copy command">⧉</button>
-</div>
-
-<div class="hero-cta">
-    <a href="{{ install_github_url }}" class="btn btn-primary" target="_blank" rel="noopener">
-        Install GitHub App
-    </a>
-    <a href="https://codesec-review-ui.onrender.com" class="btn btn-secondary" target="_blank" rel="noopener">
-        View Live Demo
-    </a>
-</div>
-
-<div class="hero-mini-stats">
-    <div>
-        <strong>30</strong>
-        <span>free PR reviews / month</span>
+    <div class="hero-code-pill">
+        <span>$</span> install CodeSecAudit AI on GitHub
+        <button class="copy-mini" type="button" aria-label="Copy command">⧉</button>
     </div>
-    <div>
-        <strong>7+</strong>
-        <span>CWE categories detected</span>
-    </div>
-    <div>
-        <strong>2.8K+</strong>
-        <span>RAG knowledge chunks</span>
-    </div>
-</div>
 
+    <div class="hero-cta">
+        <a href="{{ install_github_url }}" class="btn btn-primary" target="_blank" rel="noopener">
+            Install GitHub App
+        </a>
+        <a href="https://codesec-review-ui.onrender.com" class="btn btn-secondary" target="_blank" rel="noopener">
+            View Live Demo
+        </a>
+    </div>
 
+    <div class="hero-mini-stats">
+        <div>
+            <strong>30</strong>
+            <span>free PR reviews / month</span>
+        </div>
+        <div>
+            <strong>7+</strong>
+            <span>CWE categories detected</span>
+        </div>
+        <div>
+            <strong>2.8K+</strong>
+            <span>RAG knowledge chunks</span>
+        </div>
+    </div>
 </section>
 
 <section class="trusted-section">
@@ -77,78 +186,74 @@
         Automated defensive review, clear explanations, actionable fixes, and review history in one workflow.
     </p>
 
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">📝</div>
+            <h3>PR Summary</h3>
+            <p>Get a clean pull request summary with detected risks, severity, score, and merge recommendation.</p>
+        </div>
 
-<div class="feature-grid">
-    <div class="feature-card">
-        <div class="feature-icon">📝</div>
-        <h3>PR Summary</h3>
-        <p>Get a clean pull request summary with detected risks, severity, score, and merge recommendation.</p>
+        <div class="feature-card">
+            <div class="feature-icon">💬</div>
+            <h3>Inline Comments</h3>
+            <p>CodeSecAudit comments directly on risky changed lines so developers know exactly what to fix.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">⚠️</div>
+            <h3>CWE Detection</h3>
+            <p>Detects common security issues including code injection, SQL injection, SSRF, weak hashing, and secrets.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3>Risk Score</h3>
+            <p>Each review receives a risk score and verdict: APPROVE, WARNING, or REQUEST_CHANGES.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">📚</div>
+            <h3>RAG Guidance</h3>
+            <p>Findings are enriched with OWASP secure coding guidance through a dedicated Hugging Face RAG service.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Usage Dashboard</h3>
+            <p>Track connected repositories, review history, monthly quota, remaining reviews, and risk trends.</p>
+        </div>
     </div>
-
-    <div class="feature-card">
-        <div class="feature-icon">💬</div>
-        <h3>Inline Comments</h3>
-        <p>CodeSecAudit comments directly on risky changed lines so developers know exactly what to fix.</p>
-    </div>
-
-    <div class="feature-card">
-        <div class="feature-icon">⚠️</div>
-        <h3>CWE Detection</h3>
-        <p>Detects common security issues including code injection, SQL injection, SSRF, weak hashing, and secrets.</p>
-    </div>
-
-    <div class="feature-card">
-        <div class="feature-icon">🎯</div>
-        <h3>Risk Score</h3>
-        <p>Each review receives a risk score and verdict: APPROVE, WARNING, or REQUEST_CHANGES.</p>
-    </div>
-
-    <div class="feature-card">
-        <div class="feature-icon">📚</div>
-        <h3>RAG Guidance</h3>
-        <p>Findings are enriched with OWASP secure coding guidance through a dedicated Hugging Face RAG service.</p>
-    </div>
-
-    <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <h3>Usage Dashboard</h3>
-        <p>Track connected repositories, review history, monthly quota, remaining reviews, and risk trends.</p>
-    </div>
-</div>
-
-
 </section>
 
 <section class="workflow-section">
     <div class="section-kicker">How it works</div>
     <h2 class="section-title">From pull request to secure review in seconds</h2>
 
-<div class="workflow-grid">
-    <div class="workflow-card">
-        <span>01</span>
-        <h3>Install the GitHub App</h3>
-        <p>Connect CodeSecAudit AI to selected repositories from your GitHub account.</p>
-    </div>
+    <div class="workflow-grid">
+        <div class="workflow-card">
+            <span>01</span>
+            <h3>Install the GitHub App</h3>
+            <p>Connect CodeSecAudit AI to selected repositories from your GitHub account.</p>
+        </div>
 
-    <div class="workflow-card">
-        <span>02</span>
-        <h3>Open a pull request</h3>
-        <p>The webhook receives PR changes and reviews supported files automatically.</p>
-    </div>
+        <div class="workflow-card">
+            <span>02</span>
+            <h3>Open a pull request</h3>
+            <p>The webhook receives PR changes and reviews supported files automatically.</p>
+        </div>
 
-    <div class="workflow-card">
-        <span>03</span>
-        <h3>Review inline findings</h3>
-        <p>Developers see precise CWE findings, suggested fixes, and risk scores inside GitHub.</p>
-    </div>
+        <div class="workflow-card">
+            <span>03</span>
+            <h3>Review inline findings</h3>
+            <p>Developers see precise CWE findings, suggested fixes, and risk scores inside GitHub.</p>
+        </div>
 
-    <div class="workflow-card">
-        <span>04</span>
-        <h3>Track usage and history</h3>
-        <p>Your dashboard shows 30 free PR reviews/month, remaining quota, and review history.</p>
+        <div class="workflow-card">
+            <span>04</span>
+            <h3>Track usage and history</h3>
+            <p>Your dashboard shows 30 free PR reviews/month, remaining quota, and review history.</p>
+        </div>
     </div>
-</div>
-
 </section>
 
 <section class="plans">
@@ -156,27 +261,25 @@
     <h2 class="section-title">Start free, upgrade by request</h2>
     <p class="section-subtitle">No credit card required. Built for demos, students, and small teams.</p>
 
-<div class="plan-card">
-    <div class="plan-badge">Free Plan</div>
-    <h3>CodeSecAudit Free</h3>
-    <div class="plan-price">30 <span>PR reviews / month</span></div>
-    <div class="plan-period">Free forever for early users</div>
+    <div class="plan-card">
+        <div class="plan-badge">Free Plan</div>
+        <h3>CodeSecAudit Free</h3>
+        <div class="plan-price">30 <span>PR reviews / month</span></div>
+        <div class="plan-period">Free forever for early users</div>
 
-    <ul class="plan-features">
-        <li>AI-powered CWE detection</li>
-        <li>Inline GitHub PR comments</li>
-        <li>Risk scoring and verdicts</li>
-        <li>OWASP RAG-guided suggestions</li>
-        <li>Usage dashboard and review history</li>
-        <li>Email support and usage-limit alerts</li>
-    </ul>
+        <ul class="plan-features">
+            <li>AI-powered CWE detection</li>
+            <li>Inline GitHub PR comments</li>
+            <li>Risk scoring and verdicts</li>
+            <li>OWASP RAG-guided suggestions</li>
+            <li>Usage dashboard and review history</li>
+            <li>Email support and usage-limit alerts</li>
+        </ul>
 
-    <a href="/login" class="btn btn-primary plan-btn">
-        Get Started Free
-    </a>
-</div>
-
-
+        <a href="/login" class="btn btn-primary plan-btn">
+            Get Started Free
+        </a>
+    </div>
 </section>
 
 <section class="links-section">
@@ -186,29 +289,27 @@
         CodeSecAudit AI is built as an end-to-end AIML + security engineering project.
     </p>
 
-<div class="links-grid">
-    <a href="https://github.com/OMCHOKSI108/codesec-audit-dataset" target="_blank" rel="noopener" class="link-card">
-        <strong>GitHub Repo</strong>
-        <span>Source code, GitHub Action, API, dashboard, and deployment files.</span>
-    </a>
+    <div class="links-grid">
+        <a href="https://github.com/OMCHOKSI108/codesec-audit-dataset" target="_blank" rel="noopener" class="link-card">
+            <strong>GitHub Repo</strong>
+            <span>Source code, GitHub Action, API, dashboard, and deployment files.</span>
+        </a>
 
-    <a href="https://www.kaggle.com/code/omchoksi04/codereview" target="_blank" rel="noopener" class="link-card">
-        <strong>Kaggle Notebook</strong>
-        <span>Dataset exploration, RAG testing, and reviewer prototype.</span>
-    </a>
+        <a href="https://www.kaggle.com/code/omchoksi04/codereview" target="_blank" rel="noopener" class="link-card">
+            <strong>Kaggle Notebook</strong>
+            <span>Dataset exploration, RAG testing, and reviewer prototype.</span>
+        </a>
 
-    <a href="https://huggingface.co/datasets/OMCHOKSI108/CodeSecAudit-RAG" target="_blank" rel="noopener" class="link-card">
-        <strong>Hugging Face Dataset</strong>
-        <span>28K+ review records and OWASP RAG corpus.</span>
-    </a>
+        <a href="https://huggingface.co/datasets/OMCHOKSI108/CodeSecAudit-RAG" target="_blank" rel="noopener" class="link-card">
+            <strong>Hugging Face Dataset</strong>
+            <span>28K+ review records and OWASP RAG corpus.</span>
+        </a>
 
-    <a href="https://OMCHOKSI108-codereview-agent.hf.space" target="_blank" rel="noopener" class="link-card">
-        <strong>Live RAG Service</strong>
-        <span>Semantic secure-coding search over 2,800+ OWASP chunks.</span>
-    </a>
-</div>
-
-
+        <a href="https://OMCHOKSI108-codereview-agent.hf.space" target="_blank" rel="noopener" class="link-card">
+            <strong>Live RAG Service</strong>
+            <span>Semantic secure-coding search over 2,800+ OWASP chunks.</span>
+        </a>
+    </div>
 </section>
 
 <section class="final-cta">
@@ -218,16 +319,14 @@
         <p>Start with 30 free PR reviews per month. Need more? Contact the owner for extended usage.</p>
     </div>
 
-<div class="final-cta-actions">
-    <a href="{{ install_github_url }}" class="btn btn-primary" target="_blank" rel="noopener">
-        Install GitHub App
-    </a>
-    <a href="mailto:omchoksi108@gmail.com?subject=Request%20more%20CodeSecAudit%20AI%20PR%20reviews" class="btn btn-secondary">
-        Contact Owner
-    </a>
-</div>
-
-
+    <div class="final-cta-actions">
+        <a href="{{ install_github_url }}" class="btn btn-primary" target="_blank" rel="noopener">
+            Install GitHub App
+        </a>
+        <a href="mailto:omchoksi108@gmail.com?subject=Request%20more%20CodeSecAudit%20AI%20PR%20reviews" class="btn btn-secondary">
+            Contact Owner
+        </a>
+    </div>
 </section>
 
 {% endblock %}
