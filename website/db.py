@@ -5,6 +5,31 @@ from datetime import datetime, timezone
 logger = logging.getLogger(__name__)
 
 
+def _matches(actual, expected) -> bool:
+    if isinstance(expected, dict) and any(str(k).startswith("$") for k in expected):
+        for op, val in expected.items():
+            if op == "$gte" and not (actual is not None and actual >= val):
+                return False
+            if op == "$gt" and not (actual is not None and actual > val):
+                return False
+            if op == "$lte" and not (actual is not None and actual <= val):
+                return False
+            if op == "$lt" and not (actual is not None and actual < val):
+                return False
+            if op == "$ne" and actual == val:
+                return False
+            if op == "$eq" and actual != val:
+                return False
+            if op == "$in" and actual not in val:
+                return False
+        return True
+    return actual == expected
+
+
+def _matches_all(item: dict, filter_dict: dict) -> bool:
+    return all(_matches(item.get(k), v) for k, v in filter_dict.items())
+
+
 class MemDB:
     def __init__(self):
         self.users: dict[str, dict] = {}
@@ -30,7 +55,7 @@ class _MemCollection:
 
     def find_one(self, filter_dict: dict) -> dict | None:
         for item in self._store.values():
-            if all(item.get(k) == v for k, v in filter_dict.items()):
+            if _matches_all(item, filter_dict):
                 return item
         return None
 
@@ -44,7 +69,7 @@ class _MemCollection:
                     existing[k] = existing.get(k, 0) + v
             return type("Obj", (), {"matched_count": 1, "modified_count": 1})()
         if upsert:
-            new_doc = {**filter_dict}
+            new_doc = {k: v for k, v in filter_dict.items() if not (isinstance(v, dict) and any(str(op).startswith("$") for op in v))}
             if "$set" in update_dict:
                 new_doc.update(update_dict["$set"])
             key = str(hash(frozenset(filter_dict.items())))
@@ -60,12 +85,12 @@ class _MemCollection:
     def count_documents(self, filter_dict: dict | None = None) -> int:
         if filter_dict is None:
             return len(self._store)
-        return sum(1 for v in self._store.values() if all(v.get(k) == val for k, val in filter_dict.items()))
+        return sum(1 for v in self._store.values() if _matches_all(v, filter_dict))
 
     def find(self, filter_dict: dict | None = None, sort: list | None = None, limit: int = 0):
         items = list(self._store.values())
         if filter_dict:
-            items = [v for v in items if all(v.get(k) == val for k, val in filter_dict.items())]
+            items = [v for v in items if _matches_all(v, filter_dict)]
         return _MemCursor(items, sort, limit)
 
 
@@ -80,12 +105,12 @@ class _MemCollectionList:
     def count_documents(self, filter_dict: dict | None = None) -> int:
         if filter_dict is None:
             return len(self._store)
-        return sum(1 for v in self._store if all(v.get(k) == val for k, val in filter_dict.items()))
+        return sum(1 for v in self._store if _matches_all(v, filter_dict))
 
     def find(self, filter_dict: dict | None = None, sort: list | None = None, limit: int = 0):
         items = list(self._store)
         if filter_dict:
-            items = [v for v in items if all(v.get(k) == val for k, val in filter_dict.items())]
+            items = [v for v in items if _matches_all(v, filter_dict)]
         return _MemCursor(items, sort, limit)
 
 
