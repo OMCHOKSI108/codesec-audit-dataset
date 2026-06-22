@@ -17,12 +17,16 @@ CodeSecAudit AI acts like an AI senior engineer inside GitHub pull requests, det
 ## Live Links
 
 | Asset | Link |
-|---|---|
+|---|---|---|
 | Kaggle Notebook | https://www.kaggle.com/code/omchoksi04/codereview |
 | Hugging Face Dataset | https://huggingface.co/datasets/OMCHOKSI108/CodeSecAudit-RAG |
 | RAG Service (live) | https://OMCHOKSI108-codereview-agent.hf.space |
+| API (live) | https://codesec-api.onrender.com |
+| Dashboard (live) | https://codesec-dashboard.onrender.com |
+| Review UI (live) | https://codesec-review-ui.onrender.com |
 | GitHub Repo | https://github.com/OMCHOKSI108/codesec-audit-dataset |
 | Deploy PR | https://github.com/OMCHOKSI108/codesec-audit-dataset/pull/1 |
+| Website (coming soon) | https://codesec-website.onrender.com |
 
 ---
 
@@ -156,6 +160,16 @@ docker compose up --build
 
 See [docs/docker.md](docs/docker.md) for RAG mode and build options.
 
+### SaaS Website (Flask)
+
+```bash
+pip install -e ".[website]"
+flask --app website.app run --port 5000
+# Open http://localhost:5000
+```
+
+See [docs/website.md](docs/website.md) for env vars and deployment.
+
 ---
 
 ## GitHub Action Usage
@@ -274,7 +288,7 @@ The user flow for the SaaS version:
 6. Limit reached → Resend email with upgrade prompt
 7. Contact owner for custom plans
 
-Owner contact: **omchoksi108@gmail.com**
+Owner contact: [omchoksi108@gmail.com](mailto:omchoksi108@gmail.com)
 
 Current status:
 - [x] Datasets + RAG corpus
@@ -311,4 +325,4 @@ CodeSecAudit AI is a **defensive security tool**:
 
 For questions, custom plans, or limit increases:
 
-**omchoksi108@gmail.com**
+[omchoksi108@gmail.com](mailto:omchoksi108@gmail.com)

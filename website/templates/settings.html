@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Settings — CodeSecAudit AI{% endblock %}
+{% block content %}
+<h1>Settings</h1>
+<div class="settings-card">
+  <h3>Account</h3>
+  <p><strong>Username:</strong> {{ session.user.username }}</p>
+  <p><strong>Email:</strong> {{ session.user.email or 'Not provided' }}</p>
+  <p><strong>Plan:</strong> Free</p>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Error — CodeSecAudit AI{% endblock %}
+{% block content %}
+<div class="form-card">
+  <h1>Something went wrong</h1>
+  <p>{{ error|default('An unexpected error occurred.') }}</p>
+  <a href="{{ url_for('index') }}" class="btn-primary">Go Home</a>
+</div>
+{% endblock %}

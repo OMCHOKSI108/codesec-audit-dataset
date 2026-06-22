@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — CodeSecAudit AI{% endblock %}
+{% block content %}
+<div class="dashboard-header">
+  <div class="user-info">
+    <img src="{{ session.user.avatar_url }}" alt="" class="user-avatar" width="48" height="48">
+    <div>
+      <h2>{{ session.user.name }}</h2>
+      <p class="plan-label">Plan: <strong>Free</strong></p>
+    </div>
+  </div>
+  <div class="usage-card">
+    <h3>Usage</h3>
+    <p>{{ usage.used }} / {{ usage.limit }} reviews used</p>
+    <p><strong>{{ usage.remaining }} remaining</strong></p>
+    <div class="progress-bar"><div class="progress-fill" style="width:{{ usage.percent }}%"></div></div>
+    <a href="{{ url_for('usage_page') }}" class="btn-small">Details</a>
+  </div>
+</div>
+
+<div class="cta-section">
+  {% if github_app_url %}
+    <a href="{{ github_app_url }}" target="_blank" class="btn-primary">Install GitHub App</a>
+  {% else %}
+    <span class="btn-disabled">GitHub App install coming soon</span>
+  {% endif %}
+  <a href="mailto:{{ owner_email }}" class="btn-secondary">Contact Owner for More Usage</a>
+</div>
+
+<section class="section">
+  <h3>Installed Repositories</h3>
+  <p class="muted">GitHub App install tracking coming soon.</p>
+</section>
+
+<section class="section">
+  <h3>Recent Reviews</h3>
+  {% if reviews %}
+    <table class="table">
+      <thead><tr><th>File</th><th>Issues</th><th>Risk</th><th>Verdict</th><th>Date</th></tr></thead>
+      <tbody>
+        {% for r in reviews[:5] %}
+        <tr>
+          <td><code>{{ r.file_path or '—' }}</code></td>
+          <td>{{ r.issues|length if r.issues else 0 }}</td>
+          <td>{{ r.risk_score }}/100</td>
+          <td><span class="badge badge-{{ r.verdict|lower }}">{{ r.verdict }}</span></td>
+          <td>{{ r.created_at[:10] if r.created_at else '—' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="{{ url_for('reviews_page') }}" class="btn-small">View All</a>
+  {% else %}
+    <p class="muted">No reviews yet. Install the GitHub App and open a PR.</p>
+  {% endif %}
+</section>
+{% endblock %}

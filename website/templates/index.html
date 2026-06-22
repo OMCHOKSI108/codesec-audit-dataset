@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}CodeSecAudit AI — OWASP-Powered Security Review{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>Automated Security Review for Your Pull Requests</h1>
+  <p class="hero-sub">Detect OWASP Top 10 vulnerabilities before they reach production. Powered by RAG-augmented detection with inline fix suggestions.</p>
+  <div class="hero-cta">
+    {% if session.get('user') %}
+      <a href="{{ url_for('dashboard') }}" class="btn-primary">Go to Dashboard</a>
+    {% else %}
+      <a href="{{ url_for('login_page') }}" class="btn-primary">Sign in with GitHub</a>
+    {% endif %}
+    {% if github_app_url %}
+      <a href="{{ github_app_url }}" class="btn-secondary" target="_blank">Install GitHub App</a>
+    {% else %}
+      <span class="btn-disabled">GitHub App install coming soon</span>
+    {% endif %}
+  </div>
+</section>
+
+<section class="features">
+  <div class="feature-card"><h3>PR Summary</h3><p>Every PR gets a clear security summary with severity breakdown.</p></div>
+  <div class="feature-card"><h3>Inline Comments</h3><p>Issues are posted as review comments directly on the affected lines.</p></div>
+  <div class="feature-card"><h3>Risk Score</h3><p>Each review computes a 0–100 risk score based on CWE severity and count.</p></div>
+  <div class="feature-card"><h3>CWE Detection</h3><p>7 rule-based detectors covering Code Injection, SQLi, Command Injection, weak hashes, hardcoded secrets, path traversal, and SSRF.</p></div>
+  <div class="feature-card"><h3>RAG Guidance</h3><p>Contextual fix suggestions retrieved from OWASP cheat sheets via ChromaDB.</p></div>
+  <div class="feature-card"><h3>Dashboard Analytics</h3><p>Track review history, usage, and severity trends over time.</p></div>
+</section>
+
+<section class="plan-badge"><strong>Free plan:</strong> 30 PR reviews per month. No credit card required.</section>
+
+<section class="links-section">
+  <h2>Explore</h2>
+  <div class="link-grid">
+    <a href="https://www.kaggle.com/code/omchoksi04/codereview" target="_blank" class="link-card">Kaggle Notebook</a>
+    <a href="https://huggingface.co/datasets/OMCHOKSI108/CodeSecAudit-RAG" target="_blank" class="link-card">HF Dataset</a>
+    <a href="https://OMCHOKSI108-codereview-agent.hf.space" target="_blank" class="link-card">RAG Service</a>
+    <a href="https://github.com/OMCHOKSI108/codesec-audit-dataset" target="_blank" class="link-card">GitHub Repo</a>
+  </div>
+</section>
+{% endblock %}

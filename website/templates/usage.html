@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Usage — CodeSecAudit AI{% endblock %}
+{% block content %}
+<h1>Usage</h1>
+<div class="usage-detail">
+  <div class="usage-stat"><span class="stat-label">Plan</span><span class="stat-value">Free</span></div>
+  <div class="usage-stat"><span class="stat-label">Monthly Limit</span><span class="stat-value">{{ usage.limit }} PR reviews</span></div>
+  <div class="usage-stat"><span class="stat-label">Used</span><span class="stat-value">{{ usage.used }}</span></div>
+  <div class="usage-stat"><span class="stat-label">Remaining</span><span class="stat-value">{{ usage.remaining }}</span></div>
+</div>
+<div class="progress-bar lg"><div class="progress-fill" style="width:{{ usage.percent }}%"></div></div>
+<p class="muted">Resets at the start of each month.</p>
+<a href="mailto:{{ owner_email }}" class="btn-secondary">Need more? Contact the owner</a>
+{% endblock %}

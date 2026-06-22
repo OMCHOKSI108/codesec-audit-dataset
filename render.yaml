@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: codesec-website
+    runtime: docker
+    repo: https://github.com/OMCHOKSI108/codesec-audit-dataset
+    branch: main
+    dockerfilePath: ./deploy/render/website.Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: CODESEC_API_URL
+        value: https://codesec-api.onrender.com
+      - key: PUBLIC_WEBSITE_URL
+        value: https://codesec-website.onrender.com
+      - key: GITHUB_CLIENT_ID
+        sync: false
+      - key: GITHUB_CLIENT_SECRET
+        sync: false
+      - key: GITHUB_CALLBACK_URL
+        value: https://codesec-website.onrender.com/auth/github/callback
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: GITHUB_APP_SLUG
+        sync: false
+      - key: MONGODB_URI
+        sync: false
+      - key: MONGODB_DB_NAME
+        value: codesec_audit
+      - key: RESEND_API_KEY
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+      - key: OWNER_CONTACT_EMAIL
+        value: omchoksi108@gmail.com
+      - key: FREE_PR_REVIEWS_PER_MONTH
+        value: "30"

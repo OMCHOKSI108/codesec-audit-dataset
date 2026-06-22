@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Reviews — CodeSecAudit AI{% endblock %}
+{% block content %}
+<h1>Review History</h1>
+{% if error %}
+  <div class="flash flash-error">{{ error }}</div>
+{% endif %}
+{% if reviews %}
+  <table class="table">
+    <thead>
+      <tr><th>ID</th><th>Source</th><th>File</th><th>Issues</th><th>Risk</th><th>Verdict</th><th>Date</th></tr>
+    </thead>
+    <tbody>
+      {% for r in reviews %}
+      <tr>
+        <td><code>{{ r.id[:12] }}…</code></td>
+        <td>{{ r.source }}</td>
+        <td><code>{{ r.file_path or '—' }}</code></td>
+        <td>{{ r.issues|length if r.issues else 0 }}</td>
+        <td>{{ r.risk_score }}/100</td>
+        <td><span class="badge badge-{{ r.verdict|lower }}">{{ r.verdict }}</span></td>
+        <td>{{ r.created_at[:10] if r.created_at else '—' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="muted">No reviews found.</p>
+{% endif %}
+{% endblock %}
