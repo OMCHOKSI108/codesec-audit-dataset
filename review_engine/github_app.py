@@ -16,6 +16,7 @@ except ImportError:
     pyjwt = None
 
 from review_engine.pipeline import review_code
+from review_store import save_review
 
 GITHUB_API_BASE = "https://api.github.com"
 COMMENT_MARKER = "<!-- codesec-audit-ai-review -->"
@@ -133,7 +134,7 @@ def _upsert_comment(token: str, owner: str, repo: str, pr_number: int, body: str
     existing = _find_comment(token, owner, repo, pr_number)
     headers = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github.v3+json"}
     if existing:
-        url = f"{GITHUB_API_BASE}/repos/issues/comments/{existing}"
+        url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}/issues/comments/{existing}"
         resp = requests.patch(url, headers=headers, json={"body": body}, timeout=30)
     else:
         url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}/issues/{pr_number}/comments"
@@ -151,7 +152,7 @@ def _post_inline_review(token: str, owner: str, repo: str, pr_number: int,
     return resp.status_code in (200, 201)
 
 
-def process_pr(owner: str, repo: str, pr_number: int, token: str) -> dict:
+def process_pr(owner: str, repo: str, pr_number: int, token: str, commit_sha: str = "") -> dict:
     url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}/pulls/{pr_number}/files?per_page=100"
     resp = requests.get(url, headers={"Authorization": f"Bearer {token}",
                                        "Accept": "application/vnd.github.v3+json"}, timeout=30)
@@ -185,6 +186,14 @@ def process_pr(owner: str, repo: str, pr_number: int, token: str) -> dict:
             continue
         result = review_code(code=r.text, file_path=fn, use_rag=False)
         file_results.append(result)
+        save_review(
+            review_result=result,
+            source="github_webhook",
+            repo=f"{owner}/{repo}",
+            pr_number=pr_number,
+            commit_sha=commit_sha,
+            file_path=fn,
+        )
 
     total_issues = 0
     max_risk = 0
@@ -259,9 +268,11 @@ def handle_event(event_type: str, payload: dict) -> dict:
     if not all([owner, repo, pr_number, installation_id]):
         return {"status": "error", "reason": "missing owner/repo/pr/installation in payload"}
 
+    commit_sha = (pr.get("head") or {}).get("sha", "")
+
     app_id = _get_env("GITHUB_APP_ID")
     raw_key = _get_env("GITHUB_APP_PRIVATE_KEY")
     private_key = raw_key.replace("\\n", "\n")
     jwt_token = get_jwt_token(app_id, private_key)
     token = get_installation_token(jwt_token, str(installation_id))
-    return process_pr(owner, repo, int(pr_number), token)
+    return process_pr(owner, repo, int(pr_number), token, commit_sha=commit_sha)
