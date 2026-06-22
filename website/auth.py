@@ -70,9 +70,9 @@ def github_callback():
     }
 
     if not user.get("email_verified"):
-        return redirect(url_for("auth.verify_email_page"))
+        return redirect(url_for("verify_email_page"))
 
-    return redirect(url_for("auth.dashboard"))
+    return redirect(url_for("dashboard"))
 
 
 @auth_bp.route("/logout")
