@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Contact — {{ app_name }}{% endblock %}
+{% block content %}
+<section class="page-section">
+    <h1>Contact</h1>
+
+    <div class="contact-card" style="max-width:500px;margin:3rem auto;text-align:center">
+        <h2>Need more usage?</h2>
+        <p style="color:var(--text-muted);margin:1rem 0">
+            If you need more PR reviews beyond the free plan, reach out to the project owner.
+        </p>
+        <a
+            href="mailto:omchoksi108@gmail.com?subject=Request%20more%20CodeSecAudit%20AI%20PR%20reviews"
+            class="btn btn-primary"
+            style="margin-top:1rem"
+        >
+            Email: omchoksi108@gmail.com
+        </a>
+        <p style="color:var(--text-muted);margin-top:2rem;font-size:0.875rem">
+            Include your GitHub username and how many additional reviews you need.
+        </p>
+    </div>
+</section>
+{% endblock %}

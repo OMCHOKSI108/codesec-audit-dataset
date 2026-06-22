@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Verify Email — {{ app_name }}{% endblock %}
+{% block content %}
+<section class="auth-section">
+    <div class="auth-card">
+        <h1>Verify Your Email</h1>
+        <p class="auth-desc">We sent a verification code to <strong>{{ email }}</strong>.</p>
+
+        <div id="otp-status"></div>
+
+        <form id="otp-form" class="otp-form" onsubmit="return sendOtp(event)">
+            <button type="submit" class="btn btn-primary" id="send-otp-btn">Send Verification Code</button>
+        </form>
+
+        <form id="verify-form" class="otp-form" style="display:none" onsubmit="return verifyOtp(event)">
+            <div class="form-group">
+                <label for="otp">Enter 6-digit code</label>
+                <input type="text" id="otp" name="otp" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autocomplete="one-time-code" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Verify Email</button>
+        </form>
+
+        <p class="auth-privacy" style="margin-top:1.5rem">Check your spam folder if you don't see the email. The code expires in 10 minutes.</p>
+    </div>
+</section>
+
+<script>
+let otpSent = false;
+
+async function sendOtp(e) {
+    e.preventDefault();
+    const btn = document.getElementById('send-otp-btn');
+    const status = document.getElementById('otp-status');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    try {
+        const resp = await fetch('/otp/send', { method: 'POST' });
+        const data = await resp.json();
+        if (data.success) {
+            otpSent = true;
+            status.innerHTML = '<div class="alert alert-success">Verification code sent! Check your email.</div>';
+            document.getElementById('send-otp-btn').style.display = 'none';
+            document.getElementById('verify-form').style.display = 'block';
+        } else {
+            status.innerHTML = `<div class="alert alert-error">${data.error || 'Failed to send code'}</div>`;
+            btn.disabled = false;
+            btn.textContent = 'Send Verification Code';
+        }
+    } catch (err) {
+        status.innerHTML = '<div class="alert alert-error">Network error. Please try again.</div>';
+        btn.disabled = false;
+        btn.textContent = 'Send Verification Code';
+    }
+    return false;
+}
+
+async function verifyOtp(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    const status = document.getElementById('otp-status');
+    const otp = document.getElementById('otp').value;
+    btn.disabled = true;
+    btn.textContent = 'Verifying...';
+
+    try {
+        const formData = new FormData();
+        formData.append('otp', otp);
+        const resp = await fetch('/otp/verify', { method: 'POST', body: formData });
+        const data = await resp.json();
+        if (data.success) {
+            status.innerHTML = '<div class="alert alert-success">Email verified! Redirecting...</div>';
+            window.location.href = data.redirect || '/dashboard';
+        } else {
+            status.innerHTML = `<div class="alert alert-error">${data.error || 'Invalid code'}</div>`;
+            btn.disabled = false;
+            btn.textContent = 'Verify Email';
+        }
+    } catch (err) {
+        status.innerHTML = '<div class="alert alert-error">Network error. Please try again.</div>';
+        btn.disabled = false;
+        btn.textContent = 'Verify Email';
+    }
+    return false;
+}
+</script>
+{% endblock %}

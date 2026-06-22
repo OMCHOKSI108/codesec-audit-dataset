@@ -288,12 +288,50 @@ Current status:
 - [x] Dashboard
 - [x] Docker
 - [x] Remote RAG service (deployed)
-- [ ] Render deployment
-- [ ] MongoDB Atlas integration
-- [ ] Resend email implementation
-- [ ] GitHub OAuth
-- [ ] GitHub App install flow
+- [x] Render deployment
+- [x] MongoDB Atlas integration
+- [x] Resend email implementation
+- [x] GitHub OAuth
+- [x] GitHub App install flow
 - [ ] Usage limit enforcement
+
+---
+
+## Website / SaaS Portal
+
+Public product portal at **https://codesec-website.onrender.com**
+
+- **Landing page** — Product features, GitHub App install CTA, sign in CTA
+- **GitHub OAuth login** — Sign in with your GitHub account
+- **Email OTP verification** — 6-digit code via Resend, 10-minute expiry
+- **Dashboard** — Usage tracking, recent reviews, install GitHub App
+- **Reviews page** — PR review history from the FastAPI backend
+- **Usage page** — 30 free PR reviews/month, remaining quota, reset date
+- **Repos page** — Connected repository management (placeholder)
+- **Contact page** — Owner contact for plan increases
+
+### GitHub OAuth Flow
+
+1. Click "Sign in with GitHub" → redirected to GitHub OAuth
+2. Authorize → callback exchanges code for access token
+3. GitHub profile + primary email fetched
+4. User saved/updated in MongoDB
+5. If email not verified → OTP verification page
+6. After verification → dashboard
+
+### OTP Verification
+
+- 6-digit numeric code via Resend email
+- Expires in 10 minutes
+- Max 3 send attempts per 10 minutes
+- Max 3 verify attempts per OTP
+- OTP stored as SHA-256 hash (never plaintext)
+
+### Usage Display
+
+- 30 PR reviews per month on the free plan
+- Dashboard shows used / remaining / limit with progress bar
+- Contact owner for more usage when limit reached
 
 ---
 

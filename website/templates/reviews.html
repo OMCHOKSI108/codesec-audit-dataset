@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Reviews — {{ app_name }}{% endblock %}
+{% block content %}
+<section class="page-section">
+    <h1>PR Reviews</h1>
+
+    {% if reviews %}
+    <div class="reviews-table-wrapper">
+        <table class="reviews-table">
+            <thead>
+                <tr>
+                    <th>PR #</th>
+                    <th>Repository</th>
+                    <th>Verdict</th>
+                    <th>Risk Score</th>
+                    <th>Issues</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in reviews %}
+                <tr>
+                    <td>{{ r.get('pr_number', r.get('pr', '?')) }}</td>
+                    <td>{{ r.get('repo', '?') }}</td>
+                    <td><span class="verdict {{ r.get('verdict', 'unknown')|lower }}">{{ r.get('verdict', '?') }}</span></td>
+                    <td>{{ r.get('risk_score', '?') }}</td>
+                    <td>{{ r.get('issues', [])|length }}</td>
+                    <td>{{ r.get('created_at', '')[:10] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p>No reviews found.</p>
+        <p>Install the GitHub App and open a pull request to see reviews here.</p>
+        <a href="https://github.com/apps/codesecaudit-ai/installations/new" class="btn btn-primary" target="_blank">Install GitHub App</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

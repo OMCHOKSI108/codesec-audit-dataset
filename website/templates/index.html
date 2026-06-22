@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}{{ app_name }} — AI Pull Request Reviewer{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="hero-badge">AI-Powered Security Review</div>
+    <h1 class="hero-title">{{ app_name }}</h1>
+    <p class="hero-subtitle">AI Pull Request Reviewer for Security and Code Quality</p>
+    <p class="hero-desc">Automated security review for every pull request. Detects CWE vulnerabilities, suggests fixes, and provides RAG-guided secure coding guidance — before code is merged.</p>
+    <div class="hero-cta">
+        <a href="{{ install_github_url }}" class="btn btn-primary" target="_blank">Install GitHub App</a>
+        <a href="/login" class="btn btn-secondary">Sign In with GitHub</a>
+    </div>
+</section>
+
+<section class="features">
+    <h2 class="section-title">Features</h2>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">&#128221;</div>
+            <h3>PR Summary</h3>
+            <p>Automated summary of every pull request with detected issues and risk level.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#128172;</div>
+            <h3>Inline Comments</h3>
+            <p>Precise inline review comments on lines that introduce vulnerabilities.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#9888;&#65039;</div>
+            <h3>CWE Detection</h3>
+            <p>Detects CWE-94, CWE-89, CWE-78, CWE-328, CWE-798, CWE-22, CWE-918 and more.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#127919;</div>
+            <h3>Risk Score</h3>
+            <p>Quantified risk score per PR to prioritize the most critical reviews.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#128214;</div>
+            <h3>RAG Guidance</h3>
+            <p>OWASP cheat sheet context retrieved for every detected CWE via RAG.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#128202;</div>
+            <h3>Usage Dashboard</h3>
+            <p>Track your monthly PR reviews, remaining quota, and review history.</p>
+        </div>
+    </div>
+</section>
+
+<section class="plans">
+    <h2 class="section-title">Free Plan</h2>
+    <div class="plan-card">
+        <h3>Free</h3>
+        <div class="plan-price">30 <span>PR reviews / month</span></div>
+        <ul class="plan-features">
+            <li>AI-powered CWE detection</li>
+            <li>Inline review comments</li>
+            <li>Risk scoring</li>
+            <li>RAG-guided suggestions</li>
+            <li>Usage dashboard</li>
+            <li>No credit card required</li>
+        </ul>
+        <a href="/login" class="btn btn-primary">Get Started Free</a>
+    </div>
+</section>
+
+<section class="links-section">
+    <h2 class="section-title">Resources</h2>
+    <div class="links-grid">
+        <a href="https://github.com/OMCHOKSI108/codesec-audit-dataset" target="_blank" class="link-card">
+            <strong>GitHub Repo</strong>
+            <span>Source code, issues, contributions</span>
+        </a>
+        <a href="https://www.kaggle.com/code/omchoksi04/codereview" target="_blank" class="link-card">
+            <strong>Kaggle Notebook</strong>
+            <span>Dataset exploration and evaluation</span>
+        </a>
+        <a href="https://huggingface.co/datasets/OMCHOKSI108/CodeSecAudit-RAG" target="_blank" class="link-card">
+            <strong>HF Dataset</strong>
+            <span>OWASP cheat sheets + CodeXGLUE corpus</span>
+        </a>
+        <a href="https://OMCHOKSI108-codereview-agent.hf.space" target="_blank" class="link-card">
+            <strong>RAG Service</strong>
+            <span>Live semantic search over 2,800+ docs</span>
+        </a>
+    </div>
+</section>
+{% endblock %}

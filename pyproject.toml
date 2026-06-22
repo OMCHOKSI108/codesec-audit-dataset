@@ -32,9 +32,18 @@ rag = [
     "chromadb>=0.5.0",
     "sentence-transformers>=2.2.0",
 ]
+website = [
+    "codesec-audit-ai[core]",
+    "flask>=3.0.0",
+    "gunicorn>=21.2.0",
+    "requests>=2.31.0",
+    "pymongo>=4.5.0",
+    "python-dotenv>=1.0.0",
+    "itsdangerous>=2.0.0",
+]
 dev = [
-    "codesec-audit-ai[api,ui,rag]",
+    "codesec-audit-ai[api,ui,rag,website]",
 ]
 
 [tool.hatch.build]
-include = ["review_engine/**", "review_store/**"]
+include = ["review_engine/**", "review_store/**", "website/**"]

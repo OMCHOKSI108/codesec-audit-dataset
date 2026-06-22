@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Usage — {{ app_name }}{% endblock %}
+{% block content %}
+<section class="page-section">
+    <h1>Usage</h1>
+
+    <div class="usage-card" style="max-width:600px;margin:2rem auto">
+        <h2>Free Plan</h2>
+        <p style="color:var(--text-muted);margin-bottom:1.5rem">30 PR reviews per month</p>
+
+        <div class="usage-stats">
+            <div class="usage-stat">
+                <span class="stat-value">{{ usage.used }}</span>
+                <span class="stat-label">Used</span>
+            </div>
+            <div class="usage-stat">
+                <span class="stat-value">{{ usage.remaining }}</span>
+                <span class="stat-label">Remaining</span>
+            </div>
+            <div class="usage-stat">
+                <span class="stat-value">{{ usage.limit }}</span>
+                <span class="stat-label">Total</span>
+            </div>
+        </div>
+
+        {% if usage.extra > 0 %}
+        <p style="color:var(--accent);margin-bottom:0.5rem">Extra reviews granted: +{{ usage.extra }}</p>
+        {% endif %}
+
+        <div class="progress-bar" style="margin:1.5rem 0">
+            <div class="progress-fill" style="width: {{ usage.percent }}%"></div>
+        </div>
+
+        {% if usage.reset_date %}
+        <p class="reset-info">Usage resets: {{ usage.reset_date }}</p>
+        {% endif %}
+
+        {% if usage.remaining <= 0 %}
+        <div class="alert alert-warning" style="margin-top:1.5rem">
+            <h3>Free monthly limit reached</h3>
+            <p>You've used all {{ usage.limit }} PR reviews for this month.</p>
+            <p>Contact the owner to request more reviews:</p>
+            <a href="mailto:omchoksi108@gmail.com?subject=Request%20more%20CodeSecAudit%20AI%20PR%20reviews" class="btn btn-primary">
+                Contact Owner
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
