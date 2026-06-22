@@ -22,7 +22,76 @@ CodeSecAudit AI acts like an AI senior engineer inside GitHub pull requests, det
 | Hugging Face Dataset | https://huggingface.co/datasets/OMCHOKSI108/CodeSecAudit-RAG |
 | RAG Service (live) | https://OMCHOKSI108-codereview-agent.hf.space |
 | GitHub Repo | https://github.com/OMCHOKSI108/codesec-audit-dataset |
-| Deploy PR | https://github.com/OMCHOKSI108/codesec-audit-dataset/pull/1 |
+| GitHub App | https://github.com/apps/codesecaudit-ai |
+| Website Portal | https://codesec-website.onrender.com |
+| Review UI | https://codesec-review-ui.onrender.com |
+| Dashboard | https://codesec-dashboard.onrender.com |
+| API | https://codesec-api.onrender.com |
+
+---
+
+## Screenshots
+
+### PR Review — Inline Comments
+
+![PR Review Bugs](docs/screenshots/github_pr_review_bugs.png)
+*Detected vulnerabilities with inline PR comments*
+
+![PR Review Suggestions](docs/screenshots/github_pr_review_suggest.png)
+*AI-powered fix suggestions in pull request review*
+
+### Dataset
+
+[![HF Dataset](docs/screenshots/hf-dataset.png)](https://huggingface.co/datasets/OMCHOKSI108/CodeSecAudit-RAG)
+*CodeSecAudit-RAG dataset on Hugging Face — click to explore*
+
+### API & Services
+
+![API Swagger](docs/screenshots/codesecrag_api_swagger.png)
+*FastAPI backend with review and webhook endpoints*
+
+![Dashboard API](docs/screenshots/codesec_dashboard_api.png)
+*Streamlit analytics dashboard with review metrics*
+
+![RAG Service](docs/screenshots/rag_service_swagger.png)
+*RAG semantic search service over 2,800+ OWASP documents*
+
+### Email Notifications
+
+![PR Review Email](docs/screenshots/pr_review_gmail.png)
+*Automated PR review summary delivered via email*
+
+### GitHub App
+
+![GitHub App](docs/screenshots/github_app.png)
+*CodeSecAudit AI GitHub App — install on your repositories*
+
+---
+
+## GitHub App Installation
+
+CodeSecAudit AI runs as a GitHub App that automatically reviews pull requests.
+
+### Install on your repository
+
+1. Visit the [GitHub App installation page](https://github.com/apps/codesecaudit-ai/installations/new)
+2. Choose your account or organization
+3. Select the repositories you want to review
+4. Click **Install**
+
+The app will:
+- Receive `pull_request` webhook events
+- Post review summaries and inline comments
+- Be visible as a check on PRs
+
+### Manual trigger (GitHub Action fallback)
+
+If you prefer not to use the GitHub App, you can also trigger reviews via GitHub Actions:
+
+```yaml
+- name: Run CodeSecAudit Review
+  uses: OMCHOKSI108/codesec-audit-dataset/.github/actions/review@main
+```
 
 ---
 
@@ -299,7 +368,7 @@ Current status:
 
 ## Website / SaaS Portal
 
-Public product portal at **https://codesec-website.onrender.com**
+Public product portal at **[https://codesec-website.onrender.com](https://codesec-website.onrender.com)**
 
 - **Landing page** — Product features, GitHub App install CTA, sign in CTA
 - **GitHub OAuth login** — Sign in with your GitHub account

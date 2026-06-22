@@ -2,79 +2,101 @@
 {% block title %}{{ app_name }} — AI Pull Request Reviewer{% endblock %}
 {% block content %}
 <section class="hero">
-    <div class="hero-badge">AI-Powered Security Review</div>
-    <h1 class="hero-title">{{ app_name }}</h1>
-    <p class="hero-subtitle">AI Pull Request Reviewer for Security and Code Quality</p>
-    <p class="hero-desc">Automated security review for every pull request. Detects CWE vulnerabilities, suggests fixes, and provides RAG-guided secure coding guidance — before code is merged.</p>
+    <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        AI PR Reviewer
+    </div>
+    <h1 class="hero-title">The AI security review layer<br>for your <span>GitHub pull requests</span></h1>
+    <p class="hero-subtitle">CodeSecAudit AI reviews changed code before merge, detects risky patterns, maps findings to CWE, posts inline PR comments, and tracks review analytics — with RAG guidance from OWASP secure coding resources.</p>
+
+    <div class="hero-code-pill">
+        <span>$</span> pip install codesec-audit-ai
+    </div>
+
     <div class="hero-cta">
         <a href="{{ install_github_url }}" class="btn btn-primary" target="_blank">Install GitHub App</a>
-        <a href="/login" class="btn btn-secondary">Sign In with GitHub</a>
+        <a href="https://codesec-review-ui.onrender.com" class="btn btn-secondary" target="_blank">View Live Demo</a>
+    </div>
+</section>
+
+<section class="trusted-section">
+    <p>Powered by</p>
+    <div class="trusted-logos">
+        <span class="trusted-logo">OWASP</span>
+        <span class="trusted-logo">CodeXGLUE</span>
+        <span class="trusted-logo">RAG</span>
+        <span class="trusted-logo">ChromaDB</span>
+        <span class="trusted-logo">FastAPI</span>
     </div>
 </section>
 
 <section class="features">
-    <h2 class="section-title">Features</h2>
+    <h2 class="section-title">Everything you need for secure PRs</h2>
+    <p class="section-subtitle">Automated security review for every pull request — before code is merged.</p>
     <div class="feature-grid">
         <div class="feature-card">
             <div class="feature-icon">&#128221;</div>
             <h3>PR Summary</h3>
-            <p>Automated summary of every pull request with detected issues and risk level.</p>
+            <p>Automated summary of every pull request with detected issues, risk level, and actionable recommendations.</p>
         </div>
         <div class="feature-card">
             <div class="feature-icon">&#128172;</div>
             <h3>Inline Comments</h3>
-            <p>Precise inline review comments on lines that introduce vulnerabilities.</p>
+            <p>Precise review comments on the exact lines that introduce vulnerabilities, right inside your PR.</p>
         </div>
         <div class="feature-card">
             <div class="feature-icon">&#9888;&#65039;</div>
             <h3>CWE Detection</h3>
-            <p>Detects CWE-94, CWE-89, CWE-78, CWE-328, CWE-798, CWE-22, CWE-918 and more.</p>
+            <p>Detects 7+ CWE categories: CWE-94, CWE-89, CWE-78, CWE-328, CWE-798, CWE-22, CWE-918 and more.</p>
         </div>
         <div class="feature-card">
             <div class="feature-icon">&#127919;</div>
             <h3>Risk Score</h3>
-            <p>Quantified risk score per PR to prioritize the most critical reviews.</p>
+            <p>Quantified risk score per PR so your team can prioritize the most critical reviews first.</p>
         </div>
         <div class="feature-card">
             <div class="feature-icon">&#128214;</div>
             <h3>RAG Guidance</h3>
-            <p>OWASP cheat sheet context retrieved for every detected CWE via RAG.</p>
+            <p>Every detected CWE comes with relevant OWASP cheat sheet context via semantic RAG search.</p>
         </div>
         <div class="feature-card">
             <div class="feature-icon">&#128202;</div>
             <h3>Usage Dashboard</h3>
-            <p>Track your monthly PR reviews, remaining quota, and review history.</p>
+            <p>Track monthly PR reviews, remaining quota, review history, and connected repositories.</p>
         </div>
     </div>
 </section>
 
 <section class="plans">
-    <h2 class="section-title">Free Plan</h2>
+    <h2 class="section-title">Start free, scale as you grow</h2>
+    <p class="section-subtitle">No credit card required.</p>
     <div class="plan-card">
         <h3>Free</h3>
         <div class="plan-price">30 <span>PR reviews / month</span></div>
+        <div class="plan-period">Free forever, no credit card</div>
         <ul class="plan-features">
             <li>AI-powered CWE detection</li>
             <li>Inline review comments</li>
             <li>Risk scoring</li>
             <li>RAG-guided suggestions</li>
             <li>Usage dashboard</li>
-            <li>No credit card required</li>
+            <li>Email support</li>
         </ul>
-        <a href="/login" class="btn btn-primary">Get Started Free</a>
+        <a href="/login" class="btn btn-primary" style="width:100%;justify-content:center;">Get Started Free</a>
     </div>
 </section>
 
 <section class="links-section">
-    <h2 class="section-title">Resources</h2>
+    <h2 class="section-title">Explore the project</h2>
+    <p class="section-subtitle">Source code, datasets, and interactive tools.</p>
     <div class="links-grid">
         <a href="https://github.com/OMCHOKSI108/codesec-audit-dataset" target="_blank" class="link-card">
             <strong>GitHub Repo</strong>
-            <span>Source code, issues, contributions</span>
+            <span>Source code, issues, contributions welcome</span>
         </a>
         <a href="https://www.kaggle.com/code/omchoksi04/codereview" target="_blank" class="link-card">
             <strong>Kaggle Notebook</strong>
-            <span>Dataset exploration and evaluation</span>
+            <span>Dataset exploration and model evaluation</span>
         </a>
         <a href="https://huggingface.co/datasets/OMCHOKSI108/CodeSecAudit-RAG" target="_blank" class="link-card">
             <strong>HF Dataset</strong>

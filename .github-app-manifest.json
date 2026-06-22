@@ -1,0 +1,22 @@
+{
+  "name": "CodeSecAudit AI",
+  "url": "https://github.com/OMCHOKSI108/codesec-audit-dataset",
+  "public": false,
+  "default_permissions": {
+    "contents": "read",
+    "pull_requests": "write",
+    "issues": "write",
+    "checks": "write",
+    "metadata": "read"
+  },
+  "default_events": [
+    "pull_request",
+    "installation",
+    "installation_repositories"
+  ],
+  "redirect_url": "https://codesec-website.onrender.com/auth/github/callback",
+  "hook_attributes": {
+    "url": "https://codesec-api.onrender.com/webhook/github",
+    "active": true
+  }
+}
