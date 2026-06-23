@@ -97,9 +97,11 @@ curl -X POST https://OMCHOKSI108-codereview-agent.hf.space/rag/search \
 
 ## Kaggle Notebook
 
-Explore the dataset and prototype pipeline on Kaggle:
+Explore the dataset, RAG corpus, and prototype Critic → Retriever → Fixer pipeline:
 
-https://www.kaggle.com/code/omchoksi04/codereview
+- **Kaggle**: https://www.kaggle.com/code/omchoksi04/codereview
+- **Local export**: [`notebooks/codereview.ipynb`](../notebooks/codereview.ipynb)
+- **Notebook docs**: [`notebooks/README.md`](../notebooks/README.md)
 
 ## Screenshot Checklist
 
