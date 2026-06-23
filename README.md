@@ -186,16 +186,23 @@ python scripts/build_rag_index.py
 
 ---
 
-## Kaggle Notebook
+## Notebook
 
-Explore the dataset, RAG corpus, and a prototype Critic → Retriever → Fixer pipeline on Kaggle:
+The project's experimentation and prototyping notebook is available both on Kaggle and as a local export:
 
-https://www.kaggle.com/code/omchoksi04/codereview
+| Resource | Link |
+|----------|------|
+| **Kaggle Notebook** | [https://www.kaggle.com/code/omchoksi04/codereview](https://www.kaggle.com/code/omchoksi04/codereview) |
+| **Local Export** | [`notebooks/codereview.ipynb`](notebooks/codereview.ipynb) |
+| **Notebook README** | [`notebooks/README.md`](notebooks/README.md) |
 
 The notebook demonstrates:
-- Dataset exploration (28,548 records from CodeXGLUE + OWASP)
-- RAG corpus embedding and similarity search
-- Prototype review pipeline
+- Dataset loading and exploration (28,548 records from CodeXGLUE + OWASP)
+- RAG corpus inspection and semantic search
+- Critic → Retriever → Fixer prototype pipeline
+- Evaluation examples
+
+See [`notebooks/README.md`](notebooks/README.md) for full details.
 
 ---
 

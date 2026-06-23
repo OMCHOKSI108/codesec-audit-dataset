@@ -5,7 +5,7 @@
 | Component | Status | Notes |
 |---|---|---|
 | Dataset (CodeSecAudit-RAG) | **Done** | 28,548 records, 2,833 RAG chunks, published to HF + Kaggle |
-| Kaggle Notebook | **Done** | Dataset exploration + RAG prototype |
+| Kaggle Notebook | **Done** | [Dataset exploration + RAG prototype](../notebooks/README.md) |
 | Review Engine (core) | **Done** | Critic, fixer, retriever, risk scorer, pipeline |
 | GitHub Action | **Done** | PR triggers, summary + inline comments, max caps |
 | Inline PR Comments | **Done** | 10-comment cap, duplicate detection via fingerprint |
